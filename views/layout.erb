@@ -12,7 +12,25 @@
 	<link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
 </head>
 <body>
-    <%= yield %>
+    <div class = "container">
+        <div class="first-view center-vertical">
+            <a href = "/">英語</a>
+        	<h1>検索!!!</h1>
+        	<div class="">
+                <form action = "/search" method = "get" class = "">
+                    <div class = "input-group">
+                        <div class = "mb-2 mr-sm-2">
+                            <input class = "form-control input-lg" type = "text" name = "searchWord" placeholder = "英単語を入力"><br>
+                        </div>
+                        <div class = "mb-2 mr-sm-2">
+                            <input class = "btn btn-primary" type = "submit" value = "検索" >
+                        </div>
+                    </div>
+                </form>
+        	</div>
+        </div>	
+        <%= yield %>
+    </div>   
 </body>
 </html>
 
