@@ -1,11 +1,21 @@
 <div class = "row">
-    
-	<% if @Meanings %>
-	    <h2>goo辞書</h2>    
-		<% @meanings.each do |meaning| %>
-		    <p><%= meaning %></p>
-        <% end %>
-		
-	<% end %>
+    <div class = "col-6">
+		<% if @gooMeanings %>
+		    <h2>goo辞書</h2>    
+			<% @gooMeanings.each do |meaning| %>
+			    <p><%= meaning %></p>
+	        <% end %>
+			
+		<% end %>
+	</div>
+	<div class = "col-6">
+		<% if @enHackMeanings %>
+		    <h2>enHack英英辞典</h2>    
+			<% @enHackMeanings.each do |enHack| %>
+			    <p><%= enHack %></p>
+	        <% end %>
+			
+		<% end %>
+	</div>
 </div>
     

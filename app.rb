@@ -34,7 +34,8 @@ end
 
 get '/search' do
     @word = params[:searchWord]#検索語
-    @meanings= []
+    @gooMeanings= []
+    @enHackMeanings= []
     
     options = Selenium::WebDriver::Chrome::Options.new
     options.add_argument('--headless')
@@ -47,23 +48,32 @@ get '/search' do
     puts driver.title
     
     #意味を複数とってくる
-    @Meanings = driver.find_elements(:class,"contents-wrap-b")
+    goos = driver.find_elements(:css,"div.contents-wrap-b ol.list-meanings > .in-ttl-b")
     #ここからサーバー側で処理する必要がある
-    @Meanings.each do |meaning|
-        @meanings.push(meaning.text)
+    goos.each do |meaning|
+        @gooMeanings.push(meaning.text)
     end
     # length = @meanings.size
     # @maji = @meanings[a-2].text
     
-    # #検索テキストボックスの要素をid属性値から取得
-    # element = driver.find_element(:id,'searchWord')
-    # #検索テキストボックスに"Selenium"を入力し検索を実行
-    # element.send_keys(@word, :enter)
     
-    # @result1 = driver.find_element(:class,'content-explanation').text#apple
+    #goo辞書にアクセスする
+    driver.get("https://enhack.app/dic/")
     
-    #スクショ撮る
-    # driver.save_screenshot("blog.png")
+    #検索テキストボックスの要素をid属性値から取得
+    element = driver.find_element(:class,'searchbar-input')
+    element = element.find_element(:tag_name,'input')
+    #検索テキストボックスに"Selenium"を入力し検索を実行
+    element.send_keys(@word, :enter)
+    
+    # enHacks = driver.find_elements(:class,'sentence-placeholder')
+    enHacks = driver.find_elements(:css,'span.sentence-placeholder')
+    #ここからサーバー側で処理する必要がある
+    enHacks.each do |enHack|
+        
+        @enHackMeanings.push(enHack.text)
+    end
+    
 
     driver.quit # ブラウザ終了
     
