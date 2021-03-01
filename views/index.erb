@@ -1,9 +1,26 @@
+<% unless current_user.nil? %>
+	<h1 class= "text-center m-2">Hello,<%= current_user.name %>!!!</h1>
+<% end %>
+
+<div class="first-view center-vertical">
+  <form action = "/search" method = "get" class = "">
+      <div class = "input-group">
+          <div class = "mb-2 mr-sm-2">
+              <input class = "form-control input-lg" type = "text" name = "searchWord" placeholder = "英単語を入力"><br>
+          </div>
+          <div class = "mb-2 mr-sm-2">
+              <button class = "btn btn-primary" type = "submit"><i class="fas fa-search"></i></button>
+          </div>
+      </div>
+  </form>
+</div>
+
 <% if @word %>
     <h2 class = "text-center m-2"><%= @word %>の検索結果</h2>    
 <% end %>
 
 <div class = "row">
-    <div class = "col-6">
+    <div class = "col-6 p-4">
 		<% if @gooMeanings %>
 		    <h2>goo辞書</h2>    
 			<% @gooMeanings.each do |meaning| %>
@@ -12,13 +29,12 @@
 			
 		<% end %>
 	</div>
-	<div class = "col-6">
+	<div class = "col-6 p-4">
 		<% if @enHackMeanings %>
 		    <h2>enHack英英辞典</h2>    
 			<% @enHackMeanings.each do |enHack| %>
 			    <p><%= enHack %></p>
 	        <% end %>
-			
 		<% end %>
 	</div>
 </div>

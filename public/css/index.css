@@ -1,18 +1,16 @@
-* {
-    margin: 0;
-    padding: 0;
+  body {
+    font-family: 'Roboto', sans-serif;
   }
 
   nav {
-    height: 70px;
     width: 100%;
     background-color: rgb(70, 69, 69);
     display:inline;
   }
 
   nav a {
-    font-family: 'Righteous',
-      cursive;
+    /*font-family: 'Righteous',cursive;*/
+    /*font-family: 'Roboto', sans-serif;*/
     color: white;
     text-decoration: none;
     margin-left: 15px;
@@ -24,9 +22,8 @@
   }
 
 	.first-view {
-	  height: 350px;
     width: 100%;
-    background-image: url("/img/mic.jpg");
+    /*background-image: url("/img/mic.jpg");*/
     background-size: cover;
     background-repeat: no-repeat;
   }

@@ -1,0 +1,36 @@
+
+<section class="center-vertical mt-4">
+	<h1><%= current_user.name %>の投稿</h1>
+	<% if @words===[] %>
+		<p>There's no word.</p>
+	<% else %>
+		<% @words.each do |word| %>
+			<div class="post center-vertical">
+				<p>artist: <%= word.word %></p>
+				
+			
+				<!--<p>いいねしたユーザー<br>-->
+				<!--	<img src="" alt="user_image" width="40" height="40">-->
+				<!--</p>-->
+			</div>
+		<% end %>
+	<% end %>
+</section>
+
+<%#
+<section class="center-vertical">
+	<h1>〇〇のイイねした投稿</h1>
+	<p>イイねがありません</p>
+	
+</section>
+
+
+
+<section class="center-vertical">
+	<h1>〇〇 のフォロー</h1>
+	<a href="#">フォロー解除</a><br>
+</section>
+
+<section class="center-vertical">
+	<h1>〇〇のフォロワー</h1>
+</section>%>

@@ -9,6 +9,19 @@ require 'nokogiri'
 require 'selenium-webdriver'
 
 require 'sinatra/activerecord'
+require './models'
+
+enable :sessions#セッション機能
+
+helpers do
+    def current_user
+        User.find_by(id: session[:user])#idがsession[:user]の人を1人だけ見つける
+    end
+    
+    def like
+       Like.all 
+    end
+end
 
 get '/' do
     erb :index
@@ -30,6 +43,45 @@ get '/' do
     #     anchor.to_html
     #     # logger.info anchor.attribute('href').value
     # end
+end
+
+get '/signup' do #新規登録の情報入力ページに飛ばす
+    erb :sign_up
+end
+
+post '/signup' do
+    user = User.create(
+        name: params[:name],
+        password: params[:password],
+        password_confirmation: params[:password_confirmation],
+    )
+    
+    if user.persisted?
+        session[:user] = user.id #userと言うキーにuser.idを入れる
+    end
+    redirect '/'
+end
+
+get '/signin' do #新規登録の情報入力ページに飛ばす
+    erb :sign_in
+end
+
+post '/signin' do #サインインのデータを受け取りパスワード正しいか認証
+    user = User.find_by(name: params[:name])
+    if user && user.authenticate(params[:password])
+        session[:user] = user.id
+    end
+    redirect '/'
+end
+
+get '/signout' do
+    session[:user] =nil
+    redirect '/'
+end
+
+get '/home' do #新規登録の情報入力ページに飛ばす
+    @words = Word.all
+    erb :home
 end
 
 get '/search' do
