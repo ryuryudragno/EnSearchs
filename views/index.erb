@@ -3,14 +3,11 @@
 <% end %>
 
 <div class="first-view center-vertical">
-  <form action = "/search" method = "get" class = "">
-      <div class = "input-group">
-          <div class = "mb-2 mr-sm-2">
-              <input class = "form-control input-lg" type = "text" name = "searchWord" placeholder = "英単語を入力"><br>
-          </div>
-          <div class = "mb-2 mr-sm-2">
-              <button class = "btn btn-primary" type = "submit"><i class="fas fa-search"></i></button>
-          </div>
+  <form action = "/search" method = "get" class = "form-inline mt-3">
+      <div class = "input-group cp_iptxt">
+          <input class = "form-control input-lg ef" type = "text" name = "searchWord" placeholder = "英単語を入力">
+          <span class="focus_line"><i></i></span>
+          <button class = "btn btn-primary" type = "submit"><i class="fas fa-search"></i></button>
       </div>
   </form>
 </div>
@@ -20,15 +17,23 @@
 <% end %>
 
 <div class = "row">
+	
     <div class = "col-6 p-4">
 		<% if @gooMeanings %>
-		    <h2>goo辞書</h2>    
+		    <h2>goo辞書</h2>
+		    <% count = 0 %><%# 品詞のインデックスの初期化%>
 			<% @gooMeanings.each do |meaning| %>
+				<% if meaning.chr === "1" %><%# 違う品詞に移り変わる時(1文字目が1だったら)%>
+					<%= @gooSpeeches[count] %><%# その品詞名を表示%>
+					<% count += 1 %><%# 品詞インデックスを1足す%>
+				<% end %>
+			
 			    <p><%= meaning %></p>
 	        <% end %>
 			
 		<% end %>
 	</div>
+	
 	<div class = "col-6 p-4">
 		<% if @enHackMeanings %>
 		    <h2>enHack英英辞典</h2>    

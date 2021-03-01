@@ -92,7 +92,10 @@ end
 
 get '/search' do
     @word = params[:searchWord]#検索語
+    
+    @gooSpeeches= []
     @gooMeanings= []
+    
     
     @enHackSpeeches= []#品詞の数
     @enHackNumbers= []#意味の文章のインデックス
@@ -106,10 +109,17 @@ get '/search' do
     driver.get("https://dictionary.goo.ne.jp/word/en/#{@word}")
    
     # ターミナルへページタイトルを出力
-    puts driver.title
+    # puts driver.title
     
     #意味を複数とってくる
     goos = driver.find_elements(:css,"div.contents-wrap-b ol.list-meanings > .in-ttl-b")
+    gooHinshi_s = driver.find_elements(:css,"div.content-box > .header-hinshi")#3
+    #ここからサーバー側で処理する必要がある
+    gooHinshi_s.each do |gooHinshi|
+        @gooSpeeches.push(gooHinshi.find_element(:tag_name,'span').text)
+    end
+    puts @gooSpeeches
+    
     #ここからサーバー側で処理する必要がある
     goos.each do |meaning|
         @gooMeanings.push(meaning.text)
@@ -130,28 +140,19 @@ get '/search' do
     end
     
     
-    #enHack辞書
+    ###enHack辞書####
     speeches = driver.find_elements(:css,'div.wordnet-item-headr')#単語が持つ品詞の数、名詞と動詞なら2
-
+    #品詞をテキストにして配列に
     speeches.each do |speech|
         @enHackSpeeches.push(speech.text)
     end
-    puts @enHackSpeeches.size
     
+    #各意味の前につく番号
     numbers = driver.find_elements(:css,'div.wordnet-item span.wordnet-item-def-number')
+    #テキストにして配列に
     numbers.each do |number|
         @enHackNumbers.push(number.text)
     end
-    # for i in 1..@size do
-    #     a = driver.find_elements(:css,'div.wordnet-item-headr')[i]
-        
-    #     # if a.find_elements(:css,'div.wordnet-item-def span.sentence-placeholder').size >= 1 then
-            
-    #     #     b = a.find_elements(:css,'div.wordnet-item-def span.sentence-placeholder')
-            
-    #     # end
-    #     # puts b
-    # end
     
     #enHackから語彙の意味だけ取ってくる
     enHacks = driver.find_elements(:css,'div.wordnet-item-def span.sentence-placeholder')
