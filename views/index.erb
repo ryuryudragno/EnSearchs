@@ -32,8 +32,13 @@
 	<div class = "col-6 p-4">
 		<% if @enHackMeanings %>
 		    <h2>enHack英英辞典</h2>    
+		    <% count = 0 %><%# 品詞のインデックスの初期化%>
 			<% @enHackMeanings.each_with_index do |enHack,i| %>
-				 <p><%= i + 1 %></p>			
+				<% if @enHackNumbers[i] === "1" %><%# 違う品詞に移り変わる時%>
+					<%= @enHackSpeeches[count] %><%# その品詞名を表示%>
+					<% count += 1 %><%# 品詞インデックスを1足す%>
+				<% end %>
+				<p><%= @enHackNumbers[i] %></p>
 			    <p><%= enHack %></p>
 	        <% end %>
 		<% end %>

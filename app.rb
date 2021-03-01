@@ -93,7 +93,10 @@ end
 get '/search' do
     @word = params[:searchWord]#検索語
     @gooMeanings= []
-    @enHackMeanings= []
+    
+    @enHackSpeeches= []#品詞の数
+    @enHackNumbers= []#意味の文章のインデックス
+    @enHackMeanings= []#意味の文章
     
     options = Selenium::WebDriver::Chrome::Options.new
     options.add_argument('--headless')
@@ -126,6 +129,29 @@ get '/search' do
         element.send_keys(@word, :enter)
     end
     
+    
+    #enHack辞書
+    speeches = driver.find_elements(:css,'div.wordnet-item-headr')#単語が持つ品詞の数、名詞と動詞なら2
+
+    speeches.each do |speech|
+        @enHackSpeeches.push(speech.text)
+    end
+    puts @enHackSpeeches.size
+    
+    numbers = driver.find_elements(:css,'div.wordnet-item span.wordnet-item-def-number')
+    numbers.each do |number|
+        @enHackNumbers.push(number.text)
+    end
+    # for i in 1..@size do
+    #     a = driver.find_elements(:css,'div.wordnet-item-headr')[i]
+        
+    #     # if a.find_elements(:css,'div.wordnet-item-def span.sentence-placeholder').size >= 1 then
+            
+    #     #     b = a.find_elements(:css,'div.wordnet-item-def span.sentence-placeholder')
+            
+    #     # end
+    #     # puts b
+    # end
     
     #enHackから語彙の意味だけ取ってくる
     enHacks = driver.find_elements(:css,'div.wordnet-item-def span.sentence-placeholder')
