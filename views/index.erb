@@ -32,7 +32,8 @@
 	<div class = "col-6 p-4">
 		<% if @enHackMeanings %>
 		    <h2>enHack英英辞典</h2>    
-			<% @enHackMeanings.each do |enHack| %>
+			<% @enHackMeanings.each_with_index do |enHack,i| %>
+				 <p><%= i + 1 %></p>			
 			    <p><%= enHack %></p>
 	        <% end %>
 		<% end %>

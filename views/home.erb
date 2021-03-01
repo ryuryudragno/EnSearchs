@@ -3,6 +3,19 @@
 	<h1><%= current_user.name %>の投稿</h1>
 	<% if @words===[] %>
 		<p>There's no word.</p>
+		<p>まずは検索から！</p>
+		<div class="first-view center-vertical">
+		  <form action = "/search" method = "get" class = "">
+		      <div class = "input-group">
+		          <div class = "mb-2 mr-sm-2">
+		              <input class = "form-control input-lg" type = "text" name = "searchWord" placeholder = "英単語を入力"><br>
+		          </div>
+		          <div class = "mb-2 mr-sm-2">
+		              <button class = "btn btn-primary" type = "submit"><i class="fas fa-search"></i></button>
+		          </div>
+		      </div>
+		  </form>
+		</div>
 	<% else %>
 		<% @words.each do |word| %>
 			<div class="post center-vertical">

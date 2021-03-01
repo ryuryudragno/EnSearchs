@@ -23,6 +23,12 @@ helpers do
     end
 end
 
+before '/home,/search,/' do
+    if current_user.nil?
+        redirect '/'
+    end#ログインしてない時にtodoを押すとtopページに戻るように
+end
+
 get '/' do
     erb :index
     # url = 'https://life-is-tech.com/'#html情報をurlから取得
@@ -112,19 +118,29 @@ get '/search' do
     #goo辞書にアクセスする
     driver.get("https://enhack.app/dic/")
     
-    #検索テキストボックスの要素をid属性値から取得
-    element = driver.find_element(:class,'searchbar-input')
-    element = element.find_element(:tag_name,'input')
-    #検索テキストボックスに"Selenium"を入力し検索を実行
-    element.send_keys(@word, :enter)
+    if driver.find_elements(:class,'searchbar-input').size >= 1 then
+        #検索テキストボックスの要素をid属性値から取得
+        element = driver.find_element(:class,'searchbar-input')
+        element = element.find_element(:tag_name,'input')
+        #検索テキストボックスに"Selenium"を入力し検索を実行
+        element.send_keys(@word, :enter)
+    end
     
-    # enHacks = driver.find_elements(:class,'sentence-placeholder')
-    enHacks = driver.find_elements(:css,'span.sentence-placeholder')
-    #ここからサーバー側で処理する必要がある
+    
+    #enHackから語彙の意味だけ取ってくる
+    enHacks = driver.find_elements(:css,'div.wordnet-item-def span.sentence-placeholder')
+    #文字にして配列にする
     enHacks.each do |enHack|
-        
         @enHackMeanings.push(enHack.text)
     end
+    
+
+    
+    
+    
+    
+    
+    
     
 
     driver.quit # ブラウザ終了
