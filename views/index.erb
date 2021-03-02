@@ -3,14 +3,30 @@
 <% end %>
 
 <div class="first-view center-vertical">
-  <form action = "/search" method = "get" class = "form-inline mt-3">
-      <div class = "input-group cp_iptxt">
-          <input class = "form-control input-lg ef" type = "text" name = "searchWord" placeholder = "英単語を入力">
-          <span class="focus_line"><i></i></span>
-          <button class = "btn btn-primary" type = "submit"><i class="fas fa-search"></i></button>
-      </div>
+  <form action = "/search" method = "get" class = "mt-3">
+      	  <div class = "input-group cp_iptxt">
+      	  	<div class="cp_iptxt">
+      	      <input class = "form-control input-lg ef" type = "text" name = "searchWord" placeholder = "英単語を入力">
+	          <span class="focus_line"><i></i></span>	
+      	  	</div>
+      	  	  <button class = "btn btn-primary" type = "submit"><i class="fas fa-search"></i></button>
+      	  </div>
+          
   </form>
 </div>
+
+<% if Word.all===[] %>
+	<%# TODO: ここで分岐 %>
+	<p>投稿がありません</p>
+<% else %>
+	<% Word.all.each do |word| %>
+		<div class="">
+			<p>artist: <%= word.user_id %></p><br>
+			<p>コメント: <%= word.word %></p>
+			<p>投稿者: <%= word.meaning %></p>
+		</div>
+	<% end %>
+<% end %>
 
 <% if @word %>
     <h2 class = "text-center m-2"><%= @word %>の検索結果</h2>    
@@ -29,6 +45,16 @@
 				<% end %>
 			
 			    <p><%= meaning %></p>
+			    
+			    <% unless current_user.nil? %>
+					<form class = "col-md-offset-1" action = "/save" method = "POST">
+			    		<input type="hidden" value="<%= @word %>" name="searchWord">
+						<input type="hidden" value="<%= meaning %>" name="meaning">
+	
+		                <button class = "form-group col-lg-4 btn btn-success" type = "submit">保存</button>
+				    </form>
+				<% end %>
+			    
 	        <% end %>
 			
 		<% end %>

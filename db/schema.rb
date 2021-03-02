@@ -20,9 +20,9 @@ ActiveRecord::Schema.define(version: 2021_03_01_054706) do
   end
 
   create_table "words", force: :cascade do |t|
+    t.integer "user_id"
     t.string "word"
-    t.string "goo"
-    t.string "enhack"
+    t.string "meaning"
     t.boolean "important"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

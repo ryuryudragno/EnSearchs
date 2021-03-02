@@ -93,14 +93,20 @@ end
 get '/search' do
     @word = params[:searchWord]#検索語
     
+    #検索語が空だったら元に戻す
+    if @word.empty?
+       redirect '/' 
+    end
+    
+    #配列初期化
     @gooSpeeches= []
     @gooMeanings= []
-    
     
     @enHackSpeeches= []#品詞の数
     @enHackNumbers= []#意味の文章のインデックス
     @enHackMeanings= []#意味の文章
     
+    #Selenium起動
     options = Selenium::WebDriver::Chrome::Options.new
     options.add_argument('--headless')
     driver = Selenium::WebDriver.for :chrome, options: options
@@ -111,16 +117,18 @@ get '/search' do
     # ターミナルへページタイトルを出力
     # puts driver.title
     
+    #品詞を取ってくる
+    gooHinshi_s = driver.find_elements(:css,"div.content-box > .header-hinshi")
+    
     #意味を複数とってくる
     goos = driver.find_elements(:css,"div.contents-wrap-b ol.list-meanings > .in-ttl-b")
-    gooHinshi_s = driver.find_elements(:css,"div.content-box > .header-hinshi")#3
-    #ここからサーバー側で処理する必要がある
+    
+    #品詞をテキストにして配列に
     gooHinshi_s.each do |gooHinshi|
         @gooSpeeches.push(gooHinshi.find_element(:tag_name,'span').text)
     end
-    puts @gooSpeeches
     
-    #ここからサーバー側で処理する必要がある
+    #意味をテキストにして配列に
     goos.each do |meaning|
         @gooMeanings.push(meaning.text)
     end
@@ -161,15 +169,6 @@ get '/search' do
         @enHackMeanings.push(enHack.text)
     end
     
-
-    
-    
-    
-    
-    
-    
-    
-
     driver.quit # ブラウザ終了
     
     erb :index
@@ -179,4 +178,14 @@ get '/search' do
     # element.submit
 
     # sleep 30
+end
+
+post '/save' do #サインインのデータを受け取りパスワード正しいか認証
+    Word.create(
+        user_id: current_user.id,
+        word: params[:searchWord],
+        meaning: params[:meaning],
+        important: false,
+    )
+    redirect '/home'
 end
