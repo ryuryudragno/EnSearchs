@@ -1,6 +1,6 @@
 
 <section class="center-vertical mt-4">
-	<h1><%= current_user.name %>の投稿</h1>
+	<h1><%= current_user.name %>の単語帳</h1>
 	<% if @words===[] %>
 		<p>There's no word.</p>
 		<p>まずは検索から！</p>
@@ -17,16 +17,29 @@
 		  </form>
 		</div>
 	<% else %>
-		<% @words.each do |word| %>
-			<div class="post center-vertical">
-				<p>artist: <%= word.word %></p>
-				
-			
-				<!--<p>いいねしたユーザー<br>-->
-				<!--	<img src="" alt="user_image" width="40" height="40">-->
-				<!--</p>-->
-			</div>
-		<% end %>
+		<div class="d-flex flex-wrap"> 
+			<% @words.each do |word| %>
+				<div class="post m-2">
+					<div id="accordion" role="tablist">
+					  <div class="card">
+					    <div class="card-header" role="tab" id="headingOne">
+					      <h5 class="mb-0">
+					        <a data-toggle="collapse" href="#collapseOne<%= word.id %>" aria-expanded="false" aria-controls="collapseOne<%= word.id %>">
+					          <%= word.word %>
+					        </a>
+					      </h5>
+					    </div>
+					
+					    <div id="collapseOne<%= word.id %>" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+					      <div class="card-body">
+					        <%= word.meaning %>
+					      </div>
+					    </div>
+					  </div>
+					</div>	
+				</div>
+			<% end %>
+		</div>
 	<% end %>
 </section>
 

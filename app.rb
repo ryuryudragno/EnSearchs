@@ -86,7 +86,14 @@ get '/signout' do
 end
 
 get '/home' do #新規登録の情報入力ページに飛ばす
-    @words = Word.all
+    @words = Word.where(user_id: current_user.id)
+    # @words = []#検索語の初期化
+    
+    # @tables.each do |word|
+    #     @words 
+        
+    # end
+    
     erb :home
 end
 
