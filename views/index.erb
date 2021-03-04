@@ -58,22 +58,30 @@
 			  <h3 class="list-group-item list-group-item-danger text-center">goo辞書</h3>
 			</div>
 		    <% count = 0 %><%# 品詞のインデックスの初期化%>
-			<% @gooMeanings.each do |meaning| %>
-				<% if meaning.chr === "1" %><%# 違う品詞に移り変わる時(1文字目が1だったら)%>
+			<% @gooMeanings.each_with_index do |meaning,i| %>
+				<% if @gooNumbers[i] === "1" %><%# 違う品詞に移り変わる時%>
 					<%= @gooSpeeches[count] %><%# その品詞名を表示%>
 					<% count += 1 %><%# 品詞インデックスを1足す%>
 				<% end %>
-			
-			    <p><%= meaning %></p>
+				
+				<div class="card my-2">
+				  <div class="card-body">
+				    <h4 class="card-title"><%= @gooNumbers[i] %></h4>
+				    <p class="card-text">
+				      <%= meaning %>
+				    </p>
+				    <% unless current_user.nil? %>
+						<form class = "col-md-offset-1" action = "/save" method = "POST">
+				    		<input type="hidden" value="<%= @word %>" name="searchWord">
+							<input type="hidden" value="<%= meaning %>" name="meaning">
+		
+			                <button class = "form-group btn btn-success" type = "submit">保存</button>
+					    </form>
+					<% end %>
+				  </div>
+				</div>
 			    
-			    <% unless current_user.nil? %>
-					<form class = "col-md-offset-1" action = "/save" method = "POST">
-			    		<input type="hidden" value="<%= @word %>" name="searchWord">
-						<input type="hidden" value="<%= meaning %>" name="meaning">
-	
-		                <button class = "form-group col-lg-4 btn btn-success" type = "submit">保存</button>
-				    </form>
-				<% end %>
+			    
 			    
 	        <% end %>
 			
@@ -91,17 +99,26 @@
 					<%= @enHackSpeeches[count] %><%# その品詞名を表示%>
 					<% count += 1 %><%# 品詞インデックスを1足す%>
 				<% end %>
-				<p><%= @enHackNumbers[i] %></p>
-			    <p><%= enHack %></p>
+				
+				<div class="card my-2">
+				  <div class="card-body">
+				    <h4 class="card-title"><%= @enHackNumbers[i] %></h4>
+				    <p class="card-text">
+				      <%= enHack %>
+				    </p>
+				    <% unless current_user.nil? %>
+						<form class = "col-md-offset-1" action = "/save" method = "POST">
+				    		<input type="hidden" value="<%= @word %>" name="searchWord">
+							<input type="hidden" value="<%= enHack %>" name="meaning">
+		
+			                <button class = "btn btn-success" type = "submit">保存</button>
+					    </form>
+					<% end %>
+				  </div>
+				</div>
+				
 			    
-			    <% unless current_user.nil? %>
-					<form class = "col-md-offset-1" action = "/save" method = "POST">
-			    		<input type="hidden" value="<%= @word %>" name="searchWord">
-						<input type="hidden" value="<%= enHack %>" name="meaning">
-	
-		                <button class = "form-group col-lg-4 btn btn-success" type = "submit">保存</button>
-				    </form>
-				<% end %>
+			    
 				
 	        <% end %>
 		<% end %>

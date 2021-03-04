@@ -21,13 +21,14 @@
 			<% @words.each do |word| %>
 				<div class="post m-2">
 					<div id="accordion" role="tablist">
-					  <div class="card"
+					  <div 
+						class="card"
 						style = "
 						<% if word.important == true %>
 							background-color:#FFFF99;
 						<% end %>
 						"
-					  >
+						>
 					    <div class="card-body row" role="tab" id="headingOne">
 					      <a class ="col-6"  data-toggle="collapse" href="#collapseOne<%= word.id %>" aria-expanded="false" aria-controls="collapseOne<%= word.id %>">
 						      <h5 class="mb-0 text-center">

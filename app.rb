@@ -107,7 +107,11 @@ get '/search' do
     
     #配列初期化
     @gooSpeeches= []
-    @gooMeanings= []
+    @gooMeanings1= []#意味の文章(インデックスも混じっている)
+    
+    @gooNumbers= []#意味の文章のインデックス
+    @gooMeanings= []#意味の文章(インデックスも混じっている)
+    
     
     @enHackSpeeches= []#品詞の数
     @enHackNumbers= []#意味の文章のインデックス
@@ -135,9 +139,18 @@ get '/search' do
         @gooSpeeches.push(gooHinshi.find_element(:tag_name,'span').text)
     end
     
+    puts @gooSpeeches
+    
     #意味をテキストにして配列に
     goos.each do |meaning|
-        @gooMeanings.push(meaning.text)
+        @gooMeanings1.push(meaning.text)
+    end
+    
+    #それをインデックスと意味に分割 
+    @gooMeanings1.each do |meaning|
+        strAry = meaning.split(" ", 2)
+        @gooNumbers.push(strAry[0])
+        @gooMeanings.push(strAry[1])
     end
     # length = @meanings.size
     # @maji = @meanings[a-2].text
