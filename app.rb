@@ -196,3 +196,16 @@ post '/save' do #サインインのデータを受け取りパスワード正し
     )
     redirect '/home'
 end
+
+post '/:word_id/delete' do #投稿削除機能
+    word = Word.find(params[:word_id])
+    word.destroy
+    redirect '/home'
+end
+
+post '/:word_id/important' do
+    word = Word.find(params[:word_id])
+    word.important = !word.important
+    word.save
+    redirect "/home"
+end
