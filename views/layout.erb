@@ -28,34 +28,50 @@
 </head>
 <body>
   <div class = "container-fluid">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
       <a class="navbar-brand" href="/">EnglishSearch</a>
+    
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
     
-      <div class="collapse navbar-collapse float-right" id="navbarSupportedContent">
+      
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <% if current_user.nil? %>
-          <li class="nav-item">
-            <a class="nav-link" href="/signup">Sign in</a>
-          </li>
-        
+            <li class="nav-item">
+              <a class="nav-link" href="/signup">Sign in</a>
+            </li>
           
-          <li class="nav-item">
-            <a class="nav-link" href="/signin">Login</a>
-          </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="/signin">Login</a>
+            </li>
           
           <% else %>
-          <li class="nav-item">
-            <a class="nav-link" href="/home">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/signout">Logout</a>
-          </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/home">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/signout">Logout</a>
+            </li>
           <% end %>
         </ul>
+        <div class="navbar-right navbar-text">
+            
+        </div>
+        <div class="navbar-right"> <!-- ここを追加 -->
+          <ul class="nav navbar-nav">
+      　　　　<li class="nav-item">  
+              <% unless current_user.nil? %>
+              	Hello,<%= current_user.name %>!!!
+              <% end %>
+            </li>
+          </ul>
+        </div>
       </div>
+      
     </nav>
 
     <%= yield %>

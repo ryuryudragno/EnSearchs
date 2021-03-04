@@ -1,5 +1,5 @@
 <% unless current_user.nil? %>
-	<h1 class= "text-center m-2">Hello,<%= current_user.name %>!!!</h1>
+	<h2 class= "text-center m-2">Hello,<%= current_user.name %>!!!</h2>
 <% end %>
 
 <div class="first-view center-vertical">
@@ -14,34 +14,33 @@
   </form>
 </div>
 
-<% if @word.nil? && @gooMeanings.nil? %>
-	<h2>みんなの投稿</h2>
+
+
+<% if @word.nil? && @gooMeanings.nil? %><%# 検索してなかったら%>
+	<h2 class = "mt-3">みんなの投稿</h2>
 	<% if Word.all===[] %>
 		<p>投稿がありません</p>
 	<% else %>
-		<div class="d-flex flex-wrap"> 
-			<% Word.all.each do |word| %>
-				<div class="post m-2">
-					<div id="accordion" role="tablist">
-					  <div class="card">
+		<% Word.all.each do |word| %>
+			<div class="post m-2 d-inline-block">
+				<div id="accordion" role="tablist">
+				  <div class="card">
+				    <a data-toggle="collapse" href="#collapseOne<%= word.id %>" aria-expanded="false" aria-controls="collapseOne<%= word.id %>">
 					    <div class="card-header" role="tab" id="headingOne">
-					      <h5 class="mb-0">
-					        <a data-toggle="collapse" href="#collapseOne<%= word.id %>" aria-expanded="false" aria-controls="collapseOne<%= word.id %>">
-					          <%= word.word %>
-					        </a>
-					      </h5>
+						      <h5 class="mb-0">
+						          <%= word.word %>
+						      </h5>
 					    </div>
-					
-					    <div id="collapseOne<%= word.id %>" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-					      <div class="card-body">
-					        <%= word.meaning %>
-					      </div>
-					    </div>
-					  </div>
-					</div>	
-				</div>
-			<% end %>
-		</div>
+					</a>
+				    <div id="collapseOne<%= word.id %>" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+				      <div class="card-body">
+				        <%= word.meaning %>
+				      </div>
+				    </div>
+				  </div>
+				</div>	
+			</div>
+		<% end %>
 	<% end %>
 <% end %>
 
@@ -52,7 +51,7 @@
 
 <div class = "row">
 	
-    <div class = "col-6 p-4">
+    <div class = "col-6 p-3">
 		<% if @gooMeanings %>
 			<div class="list-group">
 			  <h3 class="list-group-item list-group-item-danger text-center">goo辞書</h3>
@@ -88,7 +87,7 @@
 		<% end %>
 	</div>
 	
-	<div class = "col-6 p-4">
+	<div class = "col-6 p-3">
 		<% if @enHackMeanings %>
 		    <div class="list-group">
 			  <h3 class="list-group-item list-group-item-primary text-center">enHack英英辞典</h3>
