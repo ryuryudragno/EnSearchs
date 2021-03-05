@@ -23,7 +23,7 @@
   	<script src="https://kit.fontawesome.com/2b5c1df933.js" crossorigin="anonymous"></script>
   	
   	<%# js%>
-  	<script type="text/jsx;harmony=true" src="/js/index.js"></script>
+  	<script type="text/javascript" src="/js/index.js"></script>
 	
 </head>
 <body>
@@ -31,6 +31,14 @@
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
       <a class="navbar-brand" href="/">EnglishSearch</a>
     
+      <% unless current_user.nil? %>
+        <ul class="navbar-nav ms-auto"> <%#右揃え ms-auto%>
+          <li class="nav-item">
+            <div class= "navbar-text mx-4">Hello,<%= current_user.name %>!!!</div>
+          </li>
+        </ul>
+      <% end %>
+          
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -41,31 +49,25 @@
         <ul class="navbar-nav mr-auto">
           <% if current_user.nil? %>
             <li class="nav-item">
-              <a class="nav-link" href="/signup">Sign in</a>
+              <a class="nav-link nav-link-original" href="/signup">Sign in</a>
             </li>
           
             
             <li class="nav-item">
-              <a class="nav-link" href="/signin">Login</a>
+              <a class="nav-link nav-link-original" href="/signin">Login</a>
             </li>
           
           <% else %>
-            <li class="nav-item">
-              <a class="nav-link" href="/home">Home</a>
+            <li class="nav-item ">
+              <a class="nav-link nav-link-original" href="/home">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/signout">Logout</a>
+              <a class="nav-link nav-link-original" href="/signout">Logout</a>
             </li>
           <% end %>
         </ul>
-        <% unless current_user.nil? %>
-          <ul class="navbar-nav ms-auto"> <%#右揃え ms-auto%>
-            <li class="nav-item">
-              <div class= "navbar-text mx-4">Hello,<%= current_user.name %>!!!</div>
-            </li>
-          </ul>
-        <% end %>
       </div>
+      
       
     </nav>
 

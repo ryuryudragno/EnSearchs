@@ -1,79 +1,60 @@
-
-<section class="center-vertical mt-4">
-	<h1><%= current_user.name %>の単語帳</h1>
-	<% if @words===[] %>
-		<p>There's no word.</p>
-		<p>まずは検索から！</p>
-		<div class="first-view center-vertical">
-		  <form action = "/search" method = "get" class = "">
-		      <div class = "input-group">
-		          <div class = "mb-2 mr-sm-2">
-		              <input class = "form-control input-lg" type = "text" name = "searchWord" placeholder = "英単語を入力"><br>
-		          </div>
-		          <div class = "mb-2 mr-sm-2">
-		              <button class = "btn btn-primary" type = "submit"><i class="fas fa-search"></i></button>
-		          </div>
-		      </div>
-		  </form>
-		</div>
-	<% else %>
-		<div class="d-flex flex-wrap"> 
-			<% @words.each do |word| %>
-				<div class="post m-2">
-					<div id="accordion" role="tablist">
-					  <div 
-						class="card"
-						style = "
-						<% if word.important == true %>
-							background-color:#FFFF99;
-						<% end %>
-						"
-						>
-					    <div class="card-body row" role="tab" id="headingOne">
-					      <a class ="col-6"  data-toggle="collapse" href="#collapseOne<%= word.id %>" aria-expanded="false" aria-controls="collapseOne<%= word.id %>">
-						      <h5 class="mb-0 text-center">
-						          <%= word.word %>
-						      </h5>
-					      </a>
-					      <form class = "col-3" action = "/<%= word.id %>/important" method = "post">
-					      	<button type = "submit">
-					      		<i class="far fa-star star"></i>
-					      	</button>
-					      </form>
-					      <form class = "col-3" action = "/<%= word.id %>/delete" method = "post">
-					      	<button type = "submit">
-					      		<i class="far fa-trash-alt"></i>	
-					      	</button>
-					      </form>
-					    </div>
-					
-					    <div id="collapseOne<%= word.id %>" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-					      <div class="card-body">
-					        <%= word.meaning %>
-					      </div>
-					    </div>
-					  </div>
-					</div>	
-				</div>
-			<% end %>
-		</div>
-	<% end %>
-</section>
-
-<%#
-<section class="center-vertical">
-	<h1>〇〇のイイねした投稿</h1>
-	<p>イイねがありません</p>
-	
-</section>
+<h2 class = "my-3 text-center"><%= current_user.name %>の単語帳</h2>
+<% if @words===[] %>
+	<p>There's no word.</p>
+	<p>まずは検索から！</p>
+	<div class="first-view center-vertical">
+	  <form action = "/search" method = "get" class = "">
+	      <div class = "input-group">
+	          <div class = "mb-2 mr-sm-2">
+	              <input class = "form-control input-lg" type = "text" name = "searchWord" placeholder = "英単語を入力"><br>
+	          </div>
+	          <div class = "mb-2 mr-sm-2">
+	              <button class = "btn btn-primary" type = "submit"><i class="fas fa-search"></i></button>
+	          </div>
+	      </div>
+	  </form>
+	</div>
+<% else %>
+	<div class="d-flex flex-wrap"> 
+		<% @words.each do |word| %>
+			<div class="post m-2">
+				<div id="accordion" role="tablist">
+				  <div 
+					class="card"
+					style = "
+					<% if word.important == true %>
+						background-color:#FFFF99;
+					<% end %>
+					"
+					>
+				    <div class="card-body row" role="tab" id="headingOne">
+				      <a class ="col-6"  data-toggle="collapse" href="#collapseOne<%= word.id %>" aria-expanded="false" aria-controls="collapseOne<%= word.id %>">
+					      <h5 class="mb-0 text-center">
+					          <%= word.word %>
+					      </h5>
+				      </a>
+				      <form class = "col-3" action = "/<%= word.id %>/important" method = "post">
+				      	<button type = "submit">
+				      		<i class="far fa-star star"></i>
+				      	</button>
+				      </form>
+				      <form class = "col-3" action = "/<%= word.id %>/delete" method = "post">
+				      	<button type = "submit">
+				      		<i class="far fa-trash-alt"></i>	
+				      	</button>
+				      </form>
+				    </div>
+				
+				    <div id="collapseOne<%= word.id %>" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+				      <div class="card-body">
+				        <%= word.meaning %>
+				      </div>
+				    </div>
+				  </div>
+				</div>	
+			</div>
+		<% end %>
+	</div>
+<% end %>
 
 
-
-<section class="center-vertical">
-	<h1>〇〇 のフォロー</h1>
-	<a href="#">フォロー解除</a><br>
-</section>
-
-<section class="center-vertical">
-	<h1>〇〇のフォロワー</h1>
-</section>%>
