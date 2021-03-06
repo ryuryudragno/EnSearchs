@@ -52,6 +52,11 @@ get '/' do
 end
 
 get '/signup' do #新規登録の情報入力ページに飛ばす
+    @users = []
+    User.all.each do |user|
+       @users.push(user.name) 
+    end
+
     erb :sign_up
 end
 
@@ -139,7 +144,6 @@ get '/search' do
         @gooSpeeches.push(gooHinshi.find_element(:tag_name,'span').text)
     end
     
-    puts @gooSpeeches
     
     #意味をテキストにして配列に
     goos.each do |meaning|
@@ -155,7 +159,7 @@ get '/search' do
     # length = @meanings.size
     # @maji = @meanings[a-2].text
     
-    
+    sleep 1
     #goo辞書にアクセスする
     driver.get("https://enhack.app/dic/")
     

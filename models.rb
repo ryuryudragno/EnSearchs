@@ -11,8 +11,13 @@ class User < ActiveRecord::Base#大文字の単数形(History)で定義
     
     validates :name,
         presence: true,#空欄はだめ
-        format: {with:/\A\w+\z/}#
+        # uniquness: true,
+        format: {
+            with:/\A\w+\z/,
+        },
         # format: {with:/.+@.+/}#@を含む必要がある
+        length: { maximum: 16 }#16文字以下
+        
     validates :password,
         length: {in: 6..10}#6文字以上10文字以下
     
