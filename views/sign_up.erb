@@ -6,10 +6,10 @@
                 <input class = "form-control input-lg alpha" type = "text" name = "name" placeholder = "半角英数字と_のみ 16文字以下"><br>
                 
                 <label for="formGroupExampleInput">パスワード</label>
-                <input class = "form-control input-lg" type = "password" name = "password" placeholder = "6~10文字"><br>
+                <input class = "form-control input-lg password" type = "password" name = "password" placeholder = "6~10文字"><br>
                 
                 <label for="formGroupExampleInput">パスワードの確認</label>
-                <input class = "form-control input-lg" type = "password" name = "password_confirmation" placeholder = "パスワードをもう一度入力"><br>
+                <input class = "form-control input-lg password2" type = "password" name = "password_confirmation" placeholder = "パスワードをもう一度入力"><br>
             </div>
             <div class = "form-group col-lg-5">
                 <button class = "form-group col-lg-4 btn btn-secondary" id = "register" type = "submit" onclick="return userCheck();">新規登録</button>
@@ -24,18 +24,27 @@ function userCheck(){//ユーザー名入力チェック欄
     let userName = document.signup.name.value//検索語句を取得
     console.log(userName)
     
-    for(let i=0 ; i<userName.length; i++){
-        let code=userName.charCodeAt(i);
-        
+    if (userName.match( /[^\w]/ )) {
+        /* 半角英字（a-z,A-Z）と数字とアンダーバー以外が含まれていたら */
+        alert("半角英字以外が含まれています");
+        return false;
+    }else{
+        return true;    
     }
-    return false;
 };
 
 document.addEventListener('DOMContentLoaded', function() {
+  //submitを許可するか
+  let nameCheck = false;
+  let passwordCheck = false;
+  let passwordCheck2 = false;
+  
   // --------------------------------------------
   // ▼英字と特定の記号の入力チェック用スクリプト
   // --------------------------------------------
   let targets = document.getElementsByClassName('alpha')
+  let password = document.getElementsByClassName('password')
+  let password2 = document.getElementsByClassName('password2')
   
   for (let i=0 ; i<targets.length ; i++) {
     // ▼文字が入力されたタイミングでチェックする：
@@ -52,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
             $(this).after(
               '<div class = "alert alert-warning" style = "font-size: 13px;">英数字とアンダーバー以外が含まれています</div>'
             );
-            $('#register').prop('disabled',true);
+            nameCheck = false;
           }
       }
       else if(( this.value != '') && ( <%= @users %>.includes(this.value) )){
@@ -63,8 +72,8 @@ document.addEventListener('DOMContentLoaded', function() {
             $(this).after(
               '<div class = "alert alert-warning" style = "font-size: 13px;">このユーザー名は既に使われています</div>'
             );
-            $('#register').prop('disabled',true);
           }
+          nameCheck = false;
       }
       else {
         // ▼何も入力がないか、または指定文字しかないなら
@@ -75,16 +84,104 @@ document.addEventListener('DOMContentLoaded', function() {
           {
             //消す
             $(this).nextAll('div.alert-warning').remove();
-            $('#register').prop('disabled',false);
+            nameCheck = true;
           }
-          
+      }
+      console.log(nameCheck);
+      console.log(passwordCheck);
+      console.log(passwordCheck2);
+      if(nameCheck == true && passwordCheck == true && passwordCheck2 == true){
+        $('#register').prop('disabled',false);  
+      }
+      else{
+        $('#register').prop('disabled',true);  
       }
     }
   }
-  // ----------
-  // ▲ここまで
-  // ----------
-
+  
+  //パスワードの方チェック
+  
+  
+  for (let i=0 ; i<password.length ; i++) {
+    // ▼文字が入力されたタイミングでチェックする：
+    password[i].oninput = function () {
+      // console.log(this);
+      passwordCheck = passCheck(this,passwordCheck);
+      
+      console.log(nameCheck);
+      console.log(passwordCheck);
+      console.log(passwordCheck2);
+      
+      if(nameCheck == true && passwordCheck == true && passwordCheck2 == true){
+        $('#register').prop('disabled',false);  
+      }
+      else{
+        $('#register').prop('disabled',true);  
+      }
+    }
+  }
+  
+  for (let i=0 ; i<password2.length ; i++) {
+    // ▼文字が入力されたタイミングでチェックする：
+    password2[i].oninput = function () {
+      // console.log(this);
+      passwordCheck2 = passCheck(this,passwordCheck2);
+      
+      console.log(nameCheck);
+      console.log(passwordCheck);
+      console.log(passwordCheck2);
+      if(nameCheck == true && passwordCheck == true && passwordCheck2 == true){
+        $('#register').prop('disabled',false);  
+      }
+      else{
+        $('#register').prop('disabled',true);  
+      }
+    }
+  }
+  
+  
+  
+  function passCheck(This,pass){
+      console.log(pass);
+      let alertelement = This.parentNode.getElementsByClassName('alertarea');
+      if(This.value.length < 6) {
+        // ▼何か入力があって、指定以外の文字があれば
+        //エラーで、エラーメッセージがなかったら
+          if(!$(This).nextAll('div.alert-warning').length)
+          {
+            //メッセージを後ろに追加
+            $(This).after(
+              '<div class = "alert alert-warning" style = "font-size: 13px;">6文字以上でお願いします</div>'
+            );
+            pass = false;
+          }
+      }
+      else if(This.value.length > 10){
+          //エラーで、エラーメッセージがなかったら
+          if(!$(This).nextAll('div.alert-warning').length)
+          {
+            //メッセージを後ろに追加
+            $(This).after(
+              '<div class = "alert alert-warning" style = "font-size: 13px;">10文字以下でお願いします</div>'
+            );
+            pass = false;
+          }
+      }
+      else {
+        // ▼何も入力がないか、または指定文字しかないなら
+        if( alertelement[0] ) { alertelement[0].innerHTML = ""; }
+        // this.style.border = "1px solid black";
+         //エラーじゃないのにメッセージがあったら
+          if($(This).nextAll('div.alert-warning').length)
+          {
+            //消す
+            $(This).nextAll('div.alert-warning').remove();
+            pass = true;
+          }
+      }
+      return pass;    
+  }
+  
 });
 </script>
 

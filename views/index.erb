@@ -1,19 +1,7 @@
-<div class="first-view center-vertical">
-  <form action = "/search" method = "get" class = "my-3" name = "word">
-  	  <div class = "input-group cp_iptxt">
-  	  	<div class="cp_iptxt">
-  	      <input class = "form-control input-lg ef" type = "text" name = "searchWord" placeholder = "英単語を入力">
-          <span class="focus_line"><i></i></span>	
-  	  	</div>
-  	  	  <button class = "btn btn-primary" type = "submit" onClick="return check();"><i class="fas fa-search"></i></button>
-  	  </div>
-  </form>
-</div>
-
-
+<%= erb :searchForm %> 
 
 <% if @word.nil? && @gooMeanings.nil? %><%# 検索してなかったら%>
-	<h2 class = "mt-3 text-center">みんなの投稿</h2>
+	<h2 class = "text-center">みんなの投稿</h2>
 	<% if Word.all===[] %>
 		<p>投稿がありません</p>
 	<% else %>

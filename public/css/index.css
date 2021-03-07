@@ -53,7 +53,15 @@
   }
   
   .everyone-post:hover{
-    
+    box-shadow:none;
+  }
+  
+  .everyone-post{
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.4);
+    transition:0.2s;
+  }
+  
+  .everyone-post:hover{
     box-shadow:none;
   }
 
@@ -164,5 +172,27 @@ h2:before {
 
 .nav-link-original:hover {
   color: #4CAF50;
+}
+
+.btn-circle {
+  border-radius: 50%;
+  line-height: 100px;
+  width: 100px;
+  height: 100px;
+  padding: 0;
+  -webkit-box-shadow: 0 5px 0 #e6d900;
+  box-shadow: 0 5px 0 #e6d900;
+  background-color:black;
+}
+
+.btn-circle:hover {
+  -webkit-transform: translate(0, 3px);
+  transform: translate(0, 3px);
+  -webkit-box-shadow: 0 2px 0 #e6d900;
+  box-shadow: 0 2px 0 #e6d900;
+}
+
+.opacity:hover{
+  opacity:0.5;
 }
 
