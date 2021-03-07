@@ -115,12 +115,13 @@ get '/search' do
     @gooMeanings1= []#意味の文章(インデックスも混じっている)
     
     @gooNumbers= []#意味の文章のインデックス
-    @gooMeanings= []#意味の文章(インデックスも混じっている)
+    @gooMeanings= []#意味の文章
     
     
     @enHackSpeeches= []#品詞の数
     @enHackNumbers= []#意味の文章のインデックス
     @enHackMeanings= []#意味の文章
+    @enHackJPs= []#意味の文章(日本語)
     
     #Selenium起動
     options = Selenium::WebDriver::Chrome::Options.new
@@ -129,7 +130,7 @@ get '/search' do
     
     #goo辞書にアクセスする
     driver.get("https://dictionary.goo.ne.jp/word/en/#{@word}")
-   
+    sleep 0.1
     # ターミナルへページタイトルを出力
     # puts driver.title
     
@@ -159,9 +160,10 @@ get '/search' do
     # length = @meanings.size
     # @maji = @meanings[a-2].text
     
-    sleep 1
+    
     #goo辞書にアクセスする
     driver.get("https://enhack.app/dic/")
+    sleep 0.1
     
     if driver.find_elements(:class,'searchbar-input').size >= 1 then
         #検索テキストボックスの要素をid属性値から取得
@@ -179,12 +181,16 @@ get '/search' do
         @enHackSpeeches.push(speech.text)
     end
     
+    # puts @enHackSpeeches
+    
     #各意味の前につく番号
     numbers = driver.find_elements(:css,'div.wordnet-item span.wordnet-item-def-number')
     #テキストにして配列に
     numbers.each do |number|
         @enHackNumbers.push(number.text)
     end
+    
+    # puts @enHackNumbers
     
     #enHackから語彙の意味だけ取ってくる
     enHacks = driver.find_elements(:css,'div.wordnet-item-def span.sentence-placeholder')
@@ -193,15 +199,19 @@ get '/search' do
         @enHackMeanings.push(enHack.text)
     end
     
+    # puts @enHackMeanings
+    
+    #enHackから語彙の意味だけ取ってくる
+    enhackJPs = driver.find_elements(:css,'div.wordnet-item-def div.card-content-jp')
+    #文字にして配列にする
+    enhackJPs.each do |enHack|
+        @enHackJPs.push(enHack.text)
+    end
+    
     driver.quit # ブラウザ終了
     
     erb :index
     
-    
-    # #実行キーの押下
-    # element.submit
-
-    # sleep 30
 end
 
 post '/save' do #サインインのデータを受け取りパスワード正しいか認証

@@ -93,6 +93,9 @@
 					    <h4 class="card-title"><%= @enHackNumbers[i] %></h4>
 					    <p class="card-text">
 					      <%= enHack %>
+					      <div class = "mt-1">
+					      	<%= @enHackJPs[i] %>
+					      </div>
 					    </p>
 					    <% unless current_user.nil? %>
 							<form class = "col-md-offset-1" action = "/save" method = "POST">

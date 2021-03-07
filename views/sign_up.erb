@@ -144,7 +144,8 @@ document.addEventListener('DOMContentLoaded', function() {
   function passCheck(This,pass){
       console.log(pass);
       let alertelement = This.parentNode.getElementsByClassName('alertarea');
-      if(This.value.length < 6) {
+      console.log(alertelement)
+      if(This.value != '' && This.value.length < 6) {
         // ▼何か入力があって、指定以外の文字があれば
         //エラーで、エラーメッセージがなかったら
           if(!$(This).nextAll('div.alert-warning').length)
@@ -166,6 +167,9 @@ document.addEventListener('DOMContentLoaded', function() {
             );
             pass = false;
           }
+      }
+      else if(This.value == ''){
+        pass = false;
       }
       else {
         // ▼何も入力がないか、または指定文字しかないなら
