@@ -161,9 +161,8 @@ get '/search' do
     # @maji = @meanings[a-2].text
     
     
-    #goo辞書にアクセスする
+    #enHack辞書にアクセスする
     driver.get("https://enhack.app/dic/")
-    sleep 0.1
     
     if driver.find_elements(:class,'searchbar-input').size >= 1 then
         #検索テキストボックスの要素をid属性値から取得
@@ -173,6 +172,8 @@ get '/search' do
         element.send_keys(@word, :enter)
     end
     
+    sleep 1
+     
     
     ###enHack辞書####
     speeches = driver.find_elements(:css,'div.wordnet-item-headr')#単語が持つ品詞の数、名詞と動詞なら2
