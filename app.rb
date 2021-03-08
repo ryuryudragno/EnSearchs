@@ -126,10 +126,10 @@ get '/search' do
     #Selenium起動
     options = Selenium::WebDriver::Chrome::Options.new
     options.add_argument('--headless')
-    options.add_argument('--disable-gpu')
-    options.add_argument('--disable-dev-shm-usage')
-    options.add_argument('--no-sandbox')
-    options.add_argument('--window-size=1200x600')
+    # options.add_argument('--disable-gpu')
+    # options.add_argument('--disable-dev-shm-usage')
+    # options.add_argument('--no-sandbox')
+    # options.add_argument('--window-size=1200x600')
     driver = Selenium::WebDriver.for :chrome, options: options
     
     # caps = Selenium::WebDriver::Remote::Capabilities.chrome("chromeOptions" => {args: ["--headless"]})
@@ -137,86 +137,86 @@ get '/search' do
     
     
     
-    # #goo辞書にアクセスする
-    # driver.get("https://dictionary.goo.ne.jp/word/en/#{@word}")
-    # sleep 0.1
-    # # ターミナルへページタイトルを出力
-    # # puts driver.title
+    #goo辞書にアクセスする
+    driver.get("https://dictionary.goo.ne.jp/word/en/#{@word}")
+    sleep 0.1
+    # ターミナルへページタイトルを出力
+    # puts driver.title
     
-    # #品詞を取ってくる
-    # gooHinshi_s = driver.find_elements(:css,"div.content-box > .header-hinshi")
+    #品詞を取ってくる
+    gooHinshi_s = driver.find_elements(:css,"div.content-box > .header-hinshi")
     
-    # #意味を複数とってくる
-    # goos = driver.find_elements(:css,"div.contents-wrap-b ol.list-meanings > .in-ttl-b")
+    #意味を複数とってくる
+    goos = driver.find_elements(:css,"div.contents-wrap-b ol.list-meanings > .in-ttl-b")
     
-    # #品詞をテキストにして配列に
-    # gooHinshi_s.each do |gooHinshi|
-    #     @gooSpeeches.push(gooHinshi.find_element(:tag_name,'span').text)
-    # end
-    
-    
-    # #意味をテキストにして配列に
-    # goos.each do |meaning|
-    #     @gooMeanings1.push(meaning.text)
-    # end
-    
-    # #それをインデックスと意味に分割 
-    # @gooMeanings1.each do |meaning|
-    #     strAry = meaning.split(" ", 2)
-    #     @gooNumbers.push(strAry[0])
-    #     @gooMeanings.push(strAry[1])
-    # end
-    # # length = @meanings.size
-    # # @maji = @meanings[a-2].text
+    #品詞をテキストにして配列に
+    gooHinshi_s.each do |gooHinshi|
+        @gooSpeeches.push(gooHinshi.find_element(:tag_name,'span').text)
+    end
     
     
-    # #enHack辞書にアクセスする
-    # driver.get("https://enhack.app/dic/")
+    #意味をテキストにして配列に
+    goos.each do |meaning|
+        @gooMeanings1.push(meaning.text)
+    end
     
-    # if driver.find_elements(:class,'searchbar-input').size >= 1 then
-    #     #検索テキストボックスの要素をid属性値から取得
-    #     element = driver.find_element(:class,'searchbar-input')
-    #     element = element.find_element(:tag_name,'input')
-    #     #検索テキストボックスに"Selenium"を入力し検索を実行
-    #     element.send_keys(@word, :enter)
-    # end
+    #それをインデックスと意味に分割 
+    @gooMeanings1.each do |meaning|
+        strAry = meaning.split(" ", 2)
+        @gooNumbers.push(strAry[0])
+        @gooMeanings.push(strAry[1])
+    end
+    # length = @meanings.size
+    # @maji = @meanings[a-2].text
     
-    # sleep 1
+    
+    #enHack辞書にアクセスする
+    driver.get("https://enhack.app/dic/")
+    
+    if driver.find_elements(:class,'searchbar-input').size >= 1 then
+        #検索テキストボックスの要素をid属性値から取得
+        element = driver.find_element(:class,'searchbar-input')
+        element = element.find_element(:tag_name,'input')
+        #検索テキストボックスに"Selenium"を入力し検索を実行
+        element.send_keys(@word, :enter)
+    end
+    
+    sleep 1
      
     
-    # ###enHack辞書####
-    # speeches = driver.find_elements(:css,'div.wordnet-item-headr')#単語が持つ品詞の数、名詞と動詞なら2
-    # #品詞をテキストにして配列に
-    # speeches.each do |speech|
-    #     @enHackSpeeches.push(speech.text)
-    # end
+    ###enHack辞書####
+    speeches = driver.find_elements(:css,'div.wordnet-item-headr')#単語が持つ品詞の数、名詞と動詞なら2
+    #品詞をテキストにして配列に
+    speeches.each do |speech|
+        @enHackSpeeches.push(speech.text)
+    end
     
-    # # puts @enHackSpeeches
+    # puts @enHackSpeeches
     
-    # #各意味の前につく番号
-    # numbers = driver.find_elements(:css,'div.wordnet-item span.wordnet-item-def-number')
-    # #テキストにして配列に
-    # numbers.each do |number|
-    #     @enHackNumbers.push(number.text)
-    # end
+    #各意味の前につく番号
+    numbers = driver.find_elements(:css,'div.wordnet-item span.wordnet-item-def-number')
+    #テキストにして配列に
+    numbers.each do |number|
+        @enHackNumbers.push(number.text)
+    end
     
-    # # puts @enHackNumbers
+    # puts @enHackNumbers
     
-    # #enHackから語彙の意味だけ取ってくる
-    # enHacks = driver.find_elements(:css,'div.wordnet-item-def span.sentence-placeholder')
-    # #文字にして配列にする
-    # enHacks.each do |enHack|
-    #     @enHackMeanings.push(enHack.text)
-    # end
+    #enHackから語彙の意味だけ取ってくる
+    enHacks = driver.find_elements(:css,'div.wordnet-item-def span.sentence-placeholder')
+    #文字にして配列にする
+    enHacks.each do |enHack|
+        @enHackMeanings.push(enHack.text)
+    end
     
-    # # puts @enHackMeanings
+    # puts @enHackMeanings
     
-    # #enHackから語彙の意味だけ取ってくる
-    # enhackJPs = driver.find_elements(:css,'div.wordnet-item-def div.card-content-jp')
-    # #文字にして配列にする
-    # enhackJPs.each do |enHack|
-    #     @enHackJPs.push(enHack.text)
-    # end
+    #enHackから語彙の意味だけ取ってくる
+    enhackJPs = driver.find_elements(:css,'div.wordnet-item-def div.card-content-jp')
+    #文字にして配列にする
+    enhackJPs.each do |enHack|
+        @enHackJPs.push(enHack.text)
+    end
     
     driver.quit # ブラウザ終了
     
