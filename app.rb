@@ -146,7 +146,7 @@ get '/search' do
     #goo辞書にアクセスする
     driver.get("https://dictionary.goo.ne.jp/word/en/#{@word}")
     # driver.implicitly_wait(10)  # 見つからないときは、10秒まで待つ
-    sleep 0.1
+    sleep 1
     
     # ターミナルへページタイトルを出力
     # puts driver.title
