@@ -132,6 +132,8 @@ get '/search' do
     options.add_argument('--window-size=1200x600')
     driver = Selenium::WebDriver.for :chrome, options: options
     
+    
+    
     # #goo辞書にアクセスする
     # driver.get("https://dictionary.goo.ne.jp/word/en/#{@word}")
     # sleep 0.1
