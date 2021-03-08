@@ -19,13 +19,14 @@ gem 'bcrypt'
 gem 'google-api-client'
 gem 'nokogiri'
 gem 'selenium-webdriver'
-gem 'webdrivers'
+gem 'webdrivers', '~> 3.0'
 
-# #Herokuでrubyとseleniumを動かすやつ
-# gem 'chromedriver-helper'
+
 
 group :production do
     gem 'pg' , '0.21.0'#~>0.21.0の時もある
+    # #Herokuでrubyとseleniumを動かすやつ
+    gem 'chromedriver-helper'
 end
 
 group :development do
