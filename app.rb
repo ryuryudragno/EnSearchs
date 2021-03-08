@@ -137,40 +137,39 @@ get '/search' do
     # driver = Selenium::WebDriver.for :chrome, desired_capabilities: caps
     
     
-    # #goo辞書にアクセスする
-    # driver.get("https://dictionary.goo.ne.jp/word/en/#{@word}")
-    # # driver.implicitly_wait(10)  # 見つからないときは、10秒まで待つ
-    # sleep 0.1
+    #goo辞書にアクセスする
+    driver.get("https://dictionary.goo.ne.jp/word/en/#{@word}")
+    # driver.implicitly_wait(10)  # 見つからないときは、10秒まで待つ
+    sleep 0.1
     
-    # # ターミナルへページタイトルを出力
-    # # puts driver.title
+    # ターミナルへページタイトルを出力
+    # puts driver.title
     
-    # #品詞を取ってくる
-    # gooHinshi_s = driver.find_elements(:css,"div.content-box > .header-hinshi")
+    #品詞を取ってくる
+    gooHinshi_s = driver.find_elements(:css,"div.content-box > .header-hinshi")
     
-    # #意味を複数とってくる
-    # goos = driver.find_elements(:css,"div.contents-wrap-b ol.list-meanings > .in-ttl-b")
+    #意味を複数とってくる
+    goos = driver.find_elements(:css,"div.contents-wrap-b ol.list-meanings > .in-ttl-b")
     
-    # #品詞をテキストにして配列に
-    # gooHinshi_s.each do |gooHinshi|
-    #     @gooSpeeches.push(gooHinshi.find_element(:tag_name,'span').text)
-    # end
+    #品詞をテキストにして配列に
+    gooHinshi_s.each do |gooHinshi|
+        @gooSpeeches.push(gooHinshi.find_element(:tag_name,'span').text)
+    end
     
     
-    # #意味をテキストにして配列に
-    # goos.each do |meaning|
-    #     @gooMeanings1.push(meaning.text)
-    # end
+    #意味をテキストにして配列に
+    goos.each do |meaning|
+        @gooMeanings1.push(meaning.text)
+    end
     
-    # #それをインデックスと意味に分割 
-    # @gooMeanings1.each do |meaning|
-    #     strAry = meaning.split(" ", 2)
-    #     @gooNumbers.push(strAry[0])
-    #     @gooMeanings.push(strAry[1])
-    # end
-    # # length = @meanings.size
-    # # @maji = @meanings[a-2].text
-    
+    #それをインデックスと意味に分割 
+    @gooMeanings1.each do |meaning|
+        strAry = meaning.split(" ", 2)
+        @gooNumbers.push(strAry[0])
+        @gooMeanings.push(strAry[1])
+    end
+   
+   #######enHack############## 
     
     # #enHack辞書にアクセスする
     # driver.get("https://enhack.app/dic/")
