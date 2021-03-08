@@ -8,6 +8,8 @@ require 'json'
 require 'nokogiri'
 require 'selenium-webdriver'
 
+require 'chromedriver-helper'
+
 require 'sinatra/activerecord'
 require './models'
 
@@ -128,7 +130,7 @@ get '/search' do
     # options.binary = ENV.fetch("GOOGLE_CHROME_SHIM")
     options.add_argument('headless')
     options.add_argument('--no-sandbox')
-　  options.add_argument('--disable-gpu')
+# 　options.add_argument('--disable-gpu')これ入れるとバグる
     driver = Selenium::WebDriver.for :chrome, options: options
     
     # caps = Selenium::WebDriver::Remote::Capabilities.chrome("chromeOptions" => {binary: "/app/.apt/usr/bin/google-chrome", args: ["--headless"]})
