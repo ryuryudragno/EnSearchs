@@ -76,21 +76,21 @@ document.addEventListener('DOMContentLoaded', function() {
           }
           nameCheck = false;
       }
-      else if(This.value == ''){
+      else if(this.value == ''){
         nameCheck = false;
       }
       else {
         // ▼何も入力がないか、または指定文字しかないなら
         if( alertelement[0] ) { alertelement[0].innerHTML = ""; }
         // this.style.border = "1px solid black";
-         //エラーじゃないのにメッセージがあったら
-          if($(this).nextAll('div.alert-warning').length)
-          {
-            console.log("ok2")
-            //消す
-            $(this).nextAll('div.alert-warning').remove();
-          }
-           nameCheck = true;
+        //エラーじゃないのにメッセージがあったら
+        if($(this).nextAll('div.alert-warning').length)
+        {
+          console.log("ok2")
+          //消す
+          $(this).nextAll('div.alert-warning').remove();
+        }
+        nameCheck = true;
       }
       
       console.log(nameCheck);
