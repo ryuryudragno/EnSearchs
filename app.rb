@@ -123,14 +123,14 @@ get '/search' do
     @enHackMeanings= []#意味の文章
     @enHackJPs= []#意味の文章(日本語)
     
-    # #Selenium起動
-    # options = Selenium::WebDriver::Chrome::Options.new
-    # options.add_argument('--headless')
-    # options.add_argument('--disable-gpu')
-    # options.add_argument('--disable-dev-shm-usage')
-    # options.add_argument('--no-sandbox')
-    # options.add_argument('--window-size=1200x600')
-    # driver = Selenium::WebDriver.for :chrome, options: options
+    #Selenium起動
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.add_argument('--headless')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--disable-dev-shm-usage')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--window-size=1200x600')
+    driver = Selenium::WebDriver.for :chrome, options: options
     
     # #goo辞書にアクセスする
     # driver.get("https://dictionary.goo.ne.jp/word/en/#{@word}")
@@ -213,7 +213,7 @@ get '/search' do
     #     @enHackJPs.push(enHack.text)
     # end
     
-    # driver.quit # ブラウザ終了
+    driver.quit # ブラウザ終了
     
     erb :index
     
