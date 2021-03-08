@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
       let alertelement = this.parentNode.getElementsByClassName('alertarea');
       if( ( this.value != '') && ( this.value.match( /[^a-zA-Z0-9_!#%&]/ )) ) {
         // ▼何か入力があって、指定以外の文字があれば
+        console.log("X")
         if( alertelement[0] ) { alertelement[0].innerHTML = '入力には、英数字と記号「_!#$%&」だけが使えます。'; }
         
         //エラーで、エラーメッセージがなかったら
@@ -66,6 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       else if(( this.value != '') && ( <%= @users %>.includes(this.value) )){
           //エラーで、エラーメッセージがなかったら
+          console.log(<%= @users %>)
           if(!$(this).nextAll('div.alert-warning').length)
           {
             //メッセージを後ろに追加
@@ -76,6 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
           nameCheck = false;
       }
       else {
+        console.log("ok")
         // ▼何も入力がないか、または指定文字しかないなら
         if( alertelement[0] ) { alertelement[0].innerHTML = ""; }
         // this.style.border = "1px solid black";
