@@ -133,13 +133,14 @@ get '/search' do
     # options.add_argument('--window-size=1200x600')
     driver = Selenium::WebDriver.for :chrome, options: options
     
-    # caps = Selenium::WebDriver::Remote::Capabilities.chrome("chromeOptions" => {args: ["--headless"]})
+    # caps = Selenium::WebDriver::Remote::Capabilities.chrome(binary: "/opt/google/chrome/google-chrome", "chromeOptions" => {args: ["--headless"]})
     # driver = Selenium::WebDriver.for :chrome, desired_capabilities: caps
     
     
     #goo辞書にアクセスする
     driver.get("https://dictionary.goo.ne.jp/word/en/#{@word}")
-    driver.implicitly_wait(10)  # 見つからないときは、10秒まで待つ
+    # driver.implicitly_wait(10)  # 見つからないときは、10秒まで待つ
+    sleep 0.1
     
     # ターミナルへページタイトルを出力
     # puts driver.title

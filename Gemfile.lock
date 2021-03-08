@@ -14,15 +14,10 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
-    archive-zip (0.12.0)
-      io-like (~> 0.3.0)
     arel (9.0.0)
     ast (2.4.2)
     bcrypt (3.1.16)
     childprocess (3.0.0)
-    chromedriver-helper (2.1.1)
-      archive-zip (~> 0.10)
-      nokogiri (~> 1.8)
     concurrent-ruby (1.1.8)
     debase (0.2.4.1)
       debase-ruby_core_source (>= 0.10.2)
@@ -67,7 +62,6 @@ GEM
     httpclient (2.8.3)
     i18n (1.8.9)
       concurrent-ruby (~> 1.0)
-    io-like (0.3.1)
     jwt (2.2.2)
     memoist (0.16.2)
     mini_mime (1.0.2)
@@ -158,7 +152,6 @@ PLATFORMS
 DEPENDENCIES
   activerecord (= 5.2.3)
   bcrypt
-  chromedriver-helper
   debase
   fastri
   google-api-client

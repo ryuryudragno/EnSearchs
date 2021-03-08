@@ -21,8 +21,6 @@ gem 'nokogiri'
 gem 'selenium-webdriver'
 gem 'webdrivers'
 
-# Herokuでseleniumを実行するために
-gem 'chromedriver-helper'
 
 group :production do
     gem 'pg' , '0.21.0'#~>0.21.0の時もある
