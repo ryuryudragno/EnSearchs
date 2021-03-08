@@ -124,14 +124,14 @@ get '/search' do
     @enHackJPs= []#意味の文章(日本語)
     
     #Selenium起動
-    # options = Selenium::WebDriver::Chrome::Options.new
-    # options.binary = ENV.fetch(“GOOGLE_CHROME_SHIM”)
-    # options.add_argument('headless')
-    # options.add_argument('disable-gpu')
-    # driver = Selenium::WebDriver.for :chrome, options: options
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.binary = ENV.fetch("GOOGLE_CHROME_SHIM")
+    options.add_argument('headless')
+    options.add_argument('disable-gpu')
+    driver = Selenium::WebDriver.for :chrome, options: options
     
-    caps = Selenium::WebDriver::Remote::Capabilities.chrome("chromeOptions" => {binary: "/app/.apt/usr/bin/google-chrome", args: ["--headless"]})
-    driver = Selenium::WebDriver.for :chrome, desired_capabilities: caps
+    # caps = Selenium::WebDriver::Remote::Capabilities.chrome("chromeOptions" => {binary: "/app/.apt/usr/bin/google-chrome", args: ["--headless"]})
+    # driver = Selenium::WebDriver.for :chrome, desired_capabilities: caps
     
     
     # #goo辞書にアクセスする
