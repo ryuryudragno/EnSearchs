@@ -67,7 +67,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       else if(( this.value != '') && ( <%= @users %>.includes(this.value) )){
           //エラーで、エラーメッセージがなかったら
-          console.log(<%= @users %>)
           if(!$(this).nextAll('div.alert-warning').length)
           {
             //メッセージを後ろに追加
@@ -78,18 +77,19 @@ document.addEventListener('DOMContentLoaded', function() {
           nameCheck = false;
       }
       else {
-        console.log("ok")
         // ▼何も入力がないか、または指定文字しかないなら
         if( alertelement[0] ) { alertelement[0].innerHTML = ""; }
         // this.style.border = "1px solid black";
          //エラーじゃないのにメッセージがあったら
           if($(this).nextAll('div.alert-warning').length)
           {
+            console.log("ok2")
             //消す
             $(this).nextAll('div.alert-warning').remove();
-            nameCheck = true;
           }
+           nameCheck = true;
       }
+      
       console.log(nameCheck);
       console.log(passwordCheck);
       console.log(passwordCheck2);
@@ -183,8 +183,8 @@ document.addEventListener('DOMContentLoaded', function() {
           {
             //消す
             $(This).nextAll('div.alert-warning').remove();
-            pass = true;
           }
+          pass = true;
       }
       return pass;    
   }
