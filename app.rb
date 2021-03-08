@@ -7,6 +7,7 @@ require 'net/http'
 require 'json'
 require 'nokogiri'
 require 'selenium-webdriver'
+ENV['NO_PROXY']="127.0.0.1"
 
 require 'sinatra/activerecord'
 require './models'
@@ -136,10 +137,10 @@ get '/search' do
     # driver = Selenium::WebDriver.for :chrome, desired_capabilities: caps
     
     
-    
     #goo辞書にアクセスする
     driver.get("https://dictionary.goo.ne.jp/word/en/#{@word}")
-    sleep 0.1
+    driver.implicitly_wait(10)  # 見つからないときは、10秒まで待つ
+    
     # ターミナルへページタイトルを出力
     # puts driver.title
     
