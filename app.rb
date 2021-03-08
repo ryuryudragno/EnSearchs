@@ -123,50 +123,50 @@ get '/search' do
     @enHackMeanings= []#意味の文章
     @enHackJPs= []#意味の文章(日本語)
     
-    #Selenium起動
-    options = Selenium::WebDriver::Chrome::Options.new
-    options.add_argument('--headless')
-    options.add_argument('--disable-gpu')
-    options.add_argument('--disable-dev-shm-usage')
-    options.add_argument('--no-sandbox')
-    options.add_argument('--window-size=1200x600')
-    driver = Selenium::WebDriver.for :chrome, options: options
+    # #Selenium起動
+    # options = Selenium::WebDriver::Chrome::Options.new
+    # options.add_argument('--headless')
+    # options.add_argument('--disable-gpu')
+    # options.add_argument('--disable-dev-shm-usage')
+    # options.add_argument('--no-sandbox')
+    # options.add_argument('--window-size=1200x600')
+    # driver = Selenium::WebDriver.for :chrome, options: options
     
-    #goo辞書にアクセスする
-    driver.get("https://dictionary.goo.ne.jp/word/en/#{@word}")
-    sleep 0.1
-    # ターミナルへページタイトルを出力
-    # puts driver.title
+    # #goo辞書にアクセスする
+    # driver.get("https://dictionary.goo.ne.jp/word/en/#{@word}")
+    # sleep 0.1
+    # # ターミナルへページタイトルを出力
+    # # puts driver.title
     
-    #品詞を取ってくる
-    gooHinshi_s = driver.find_elements(:css,"div.content-box > .header-hinshi")
+    # #品詞を取ってくる
+    # gooHinshi_s = driver.find_elements(:css,"div.content-box > .header-hinshi")
     
-    #意味を複数とってくる
-    goos = driver.find_elements(:css,"div.contents-wrap-b ol.list-meanings > .in-ttl-b")
+    # #意味を複数とってくる
+    # goos = driver.find_elements(:css,"div.contents-wrap-b ol.list-meanings > .in-ttl-b")
     
-    #品詞をテキストにして配列に
-    gooHinshi_s.each do |gooHinshi|
-        @gooSpeeches.push(gooHinshi.find_element(:tag_name,'span').text)
-    end
-    
-    
-    #意味をテキストにして配列に
-    goos.each do |meaning|
-        @gooMeanings1.push(meaning.text)
-    end
-    
-    #それをインデックスと意味に分割 
-    @gooMeanings1.each do |meaning|
-        strAry = meaning.split(" ", 2)
-        @gooNumbers.push(strAry[0])
-        @gooMeanings.push(strAry[1])
-    end
-    # length = @meanings.size
-    # @maji = @meanings[a-2].text
+    # #品詞をテキストにして配列に
+    # gooHinshi_s.each do |gooHinshi|
+    #     @gooSpeeches.push(gooHinshi.find_element(:tag_name,'span').text)
+    # end
     
     
-    #enHack辞書にアクセスする
-    driver.get("https://enhack.app/dic/")
+    # #意味をテキストにして配列に
+    # goos.each do |meaning|
+    #     @gooMeanings1.push(meaning.text)
+    # end
+    
+    # #それをインデックスと意味に分割 
+    # @gooMeanings1.each do |meaning|
+    #     strAry = meaning.split(" ", 2)
+    #     @gooNumbers.push(strAry[0])
+    #     @gooMeanings.push(strAry[1])
+    # end
+    # # length = @meanings.size
+    # # @maji = @meanings[a-2].text
+    
+    
+    # #enHack辞書にアクセスする
+    # driver.get("https://enhack.app/dic/")
     
     # if driver.find_elements(:class,'searchbar-input').size >= 1 then
     #     #検索テキストボックスの要素をid属性値から取得
@@ -213,7 +213,7 @@ get '/search' do
     #     @enHackJPs.push(enHack.text)
     # end
     
-    driver.quit # ブラウザ終了
+    # driver.quit # ブラウザ終了
     
     erb :index
     
