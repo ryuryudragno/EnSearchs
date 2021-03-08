@@ -7,7 +7,6 @@ require 'net/http'
 require 'json'
 require 'nokogiri'
 require 'selenium-webdriver'
-ENV['NO_PROXY']="127.0.0.1"
 
 require 'sinatra/activerecord'
 require './models'
