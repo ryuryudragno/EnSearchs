@@ -76,6 +76,9 @@ document.addEventListener('DOMContentLoaded', function() {
           }
           nameCheck = false;
       }
+      else if(This.value == ''){
+        nameCheck = false;
+      }
       else {
         // ▼何も入力がないか、または指定文字しかないなら
         if( alertelement[0] ) { alertelement[0].innerHTML = ""; }
