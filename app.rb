@@ -126,11 +126,16 @@ get '/search' do
     @enHackJPs= []#意味の文章(日本語)
     
     #Selenium起動
-    options = Selenium::WebDriver::Chrome::Options.new
+    Selenium::WebDriver::Chrome.path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
     
-    options.binary = ENV.fetch("GOOGLE_CHROME_SHIM")
+    options = Selenium::WebDriver::Chrome::Options.new(
+        prefs: { 'profile.default_content_setting_values.notifications': 2 },
+        binary: ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    )
+    
+    
     options.add_argument('headless')
-    options.add_argument('--no-sandbox')
+    # options.add_argument('--no-sandbox')
 #options.add_argument('--disable-gpu')これ入れるとバグる
     driver = Selenium::WebDriver.for :chrome, options: options
     
