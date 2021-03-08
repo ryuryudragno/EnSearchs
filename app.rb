@@ -124,13 +124,16 @@ get '/search' do
     @enHackJPs= []#意味の文章(日本語)
     
     #Selenium起動
-    options = Selenium::WebDriver::Chrome::Options.new
-    options.add_argument('--headless')
-    options.add_argument('--disable-gpu')
-    options.add_argument('--disable-dev-shm-usage')
-    options.add_argument('--no-sandbox')
-    options.add_argument('--window-size=1200x600')
-    driver = Selenium::WebDriver.for :chrome, options: options
+    # options = Selenium::WebDriver::Chrome::Options.new
+    # options.add_argument('--headless')
+    # options.add_argument('--disable-gpu')
+    # options.add_argument('--disable-dev-shm-usage')
+    # options.add_argument('--no-sandbox')
+    # options.add_argument('--window-size=1200x600')
+    # driver = Selenium::WebDriver.for :chrome, options: options
+    
+    caps = Selenium::WebDriver::Remote::Capabilities.chrome("chromeOptions" => {binary: "/app/.apt/usr/bin/google-chrome", args: ["--headless"]})
+    driver = Selenium::WebDriver.for :chrome, desired_capabilities: caps
     
     
     
