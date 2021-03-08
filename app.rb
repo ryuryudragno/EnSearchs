@@ -139,17 +139,20 @@ get '/search' do
 #options.add_argument('--disable-gpu')これ入れるとバグる
     driver = Selenium::WebDriver.for :chrome, options: options
     
-    # caps = Selenium::WebDriver::Remote::Capabilities.chrome("chromeOptions" => {binary: "/app/.apt/usr/bin/google-chrome", args: ["--headless"]})
-    # driver = Selenium::WebDriver.for :chrome, desired_capabilities: caps
-    
+
+    # :timeoutオプションは秒数を指定している。この場合は100秒
+    wait = Selenium::WebDriver::Wait.new(:timeout => 100) 
+     
     
     #goo辞書にアクセスする
     driver.get("https://dictionary.goo.ne.jp/word/en/#{@word}")
     # driver.implicitly_wait(10)  # 見つからないときは、10秒まで待つ
     sleep 1#これがないと本番はバグる
     
-    # ターミナルへページタイトルを出力
-    # puts driver.title
+    # untilメソッドは文字通り「～するまで」を意味する
+    # wait.until {driver.find_elements(:css,"div.content-box > .header-hinshi")}
+    # wait.until {driver.find_elements(:css,"div.contents-wrap-b ol.list-meanings > .in-ttl-b")}
+    
     
     #品詞を取ってくる
     gooHinshi_s = driver.find_elements(:css,"div.content-box > .header-hinshi")
@@ -179,7 +182,12 @@ get '/search' do
     
     # #enHack辞書にアクセスする
     driver.get("https://enhack.app/dic/")
-    sleep 1
+    sleep 10
+    
+    # untilメソッドは文字通り「～するまで」を意味する
+    # wait.until {driver.find_element(:class,'searchbar-input')}
+    # wait.until {driver.find_elements(:css,'div.wordnet-item-headr')}
+    # wait.until {driver.find_elements(:css,'div.wordnet-item span.wordnet-item-def-number')}
     
     if driver.find_elements(:class,'searchbar-input').size >= 1 then
         #検索テキストボックスの要素をid属性値から取得
