@@ -206,6 +206,7 @@ get '/search' do
     
     ###enHack辞書####
     speeches = driver.find_elements(:css,'div.wordnet-item-headr')#単語が持つ品詞の数、名詞と動詞なら2
+    wait.until {speeches}#trueになるまで待つ
     puts "ok4"
     #品詞をテキストにして配列に
     speeches.each do |speech|
@@ -216,6 +217,8 @@ get '/search' do
     
     #各意味の前につく番号
     numbers = driver.find_elements(:css,'div.wordnet-item span.wordnet-item-def-number')
+    wait.until {numbers}#trueになるまで待つ
+    puts "ok5"
     #テキストにして配列に
     numbers.each do |number|
         @enHackNumbers.push(number.text)
@@ -225,6 +228,8 @@ get '/search' do
     
     #enHackから語彙の意味だけ取ってくる
     enHacks = driver.find_elements(:css,'div.wordnet-item-def span.sentence-placeholder')
+    wait.until {enHacks}#trueになるまで待つ
+    puts "ok6"
     #文字にして配列にする
     enHacks.each do |enHack|
         @enHackMeanings.push(enHack.text)
@@ -234,6 +239,8 @@ get '/search' do
     
     #enHackから語彙の意味だけ取ってくる
     enhackJPs = driver.find_elements(:css,'div.wordnet-item-def div.card-content-jp')
+    wait.until {enhackJPs}#trueになるまで待つ
+    puts "ok7"
     #文字にして配列にする
     enhackJPs.each do |enHack|
         @enHackJPs.push(enHack.text)
