@@ -126,12 +126,12 @@ get '/search' do
     @enHackJPs= []#意味の文章(日本語)
     
     #Herokuにあげるときは必須、テスト時はいらない
-    Selenium::WebDriver::Chrome.path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
+    # Selenium::WebDriver::Chrome.path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
     
     options = Selenium::WebDriver::Chrome::Options.new(
         #Herokuにあげるときはこの2行必須
-        prefs: { 'profile.default_content_setting_values.notifications': 2 },
-        binary: ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+        # prefs: { 'profile.default_content_setting_values.notifications': 2 },
+        # binary: ENV.fetch('GOOGLE_CHROME_SHIM', nil)
     )
     
     
@@ -141,9 +141,12 @@ get '/search' do
     puts 1
     #Selenium起動
     driver = Selenium::WebDriver.for :chrome, options: options
+    #要素がロードされるまでの待ち時間を10秒に設定
+    driver.manage.timeouts.implicit_wait = 30
     puts 2
 
     #goo辞書にアクセスする
+    driver.manage.timeouts.page_load = 5
     driver.get("https://dictionary.goo.ne.jp/word/en/#{@word}")
     # :timeoutオプションは秒数を指定している。この場合は100秒
     wait = Selenium::WebDriver::Wait.new(:timeout => 30) 
@@ -183,6 +186,7 @@ get '/search' do
    #######enHack############## 
     
     # #enHack辞書にアクセスする
+    driver.manage.timeouts.page_load = 5
     driver.get("https://enhack.app/dic/")
     puts "enHackOk"
     
