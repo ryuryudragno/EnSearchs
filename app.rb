@@ -126,11 +126,11 @@ get '/search' do
     @enHackJPs= []#意味の文章(日本語)
     
     #Selenium起動
-    Selenium::WebDriver::Chrome.path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
+    # Selenium::WebDriver::Chrome.path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
     
     options = Selenium::WebDriver::Chrome::Options.new(
-        prefs: { 'profile.default_content_setting_values.notifications': 2 },
-        binary: ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+        # prefs: { 'profile.default_content_setting_values.notifications': 2 },
+        # binary: ENV.fetch('GOOGLE_CHROME_SHIM', nil)
     )
     
     
@@ -148,14 +148,14 @@ get '/search' do
     driver.get("https://dictionary.goo.ne.jp/word/en/#{@word}")
     # driver.implicitly_wait(10)  # 見つからないときは、10秒まで待つ
     sleep 1#これがないと本番はバグる
-    
-    # untilメソッドは文字通り「～するまで」を意味する
-    # wait.until {driver.find_elements(:css,"div.content-box > .header-hinshi")}
-    # wait.until {driver.find_elements(:css,"div.contents-wrap-b ol.list-meanings > .in-ttl-b")}
-    
-    
+    puts "前"
     #品詞を取ってくる
     gooHinshi_s = driver.find_elements(:css,"div.content-box > .header-hinshi")
+    puts "中"
+    # untilメソッドは文字通り「～するまで」を意味する
+    wait.until {gooHinshi_s}#trueになるまで待つ
+    puts "後"
+    # wait.until {gooHinshi_s.display}にするとバグる
     
     #意味を複数とってくる
     goos = driver.find_elements(:css,"div.contents-wrap-b ol.list-meanings > .in-ttl-b")
@@ -182,7 +182,7 @@ get '/search' do
     
     # #enHack辞書にアクセスする
     driver.get("https://enhack.app/dic/")
-    sleep 10
+    sleep 1
     
     # untilメソッドは文字通り「～するまで」を意味する
     # wait.until {driver.find_element(:class,'searchbar-input')}
@@ -191,8 +191,11 @@ get '/search' do
     
     if driver.find_elements(:class,'searchbar-input').size >= 1 then
         #検索テキストボックスの要素をid属性値から取得
-        element = driver.find_element(:class,'searchbar-input')
-        element = element.find_element(:tag_name,'input')
+        element = driver.find_element(:css,'div.searchbar-input input')
+        puts "ok"
+        # untilメソッドは文字通り「～するまで」を意味する
+        wait.until {element}#trueになるまで待つ
+        puts "ok2"
         #検索テキストボックスに"Selenium"を入力し検索を実行
         element.send_keys(@word, :enter)
     end
