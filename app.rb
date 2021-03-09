@@ -191,8 +191,10 @@ get '/search' do
     # wait.until {driver.find_element(:class,'searchbar-input')}
     # wait.until {driver.find_elements(:css,'div.wordnet-item-headr')}
     # wait.until {driver.find_elements(:css,'div.wordnet-item span.wordnet-item-def-number')}
+    searchBox = driver.find_elements(:class,'searchbar-input')
+    wait.until {searchBox}#trueになるまで待つ
     
-    if driver.find_elements(:class,'searchbar-input').size >= 1 then
+    if searchBox.size >= 1 then
         #検索テキストボックスの要素をid属性値から取得
         element = driver.find_element(:css,'div.searchbar-input input')
         puts "ok"
