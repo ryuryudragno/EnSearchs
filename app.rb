@@ -125,18 +125,21 @@ get '/search' do
     @enHackMeanings= []#意味の文章
     @enHackJPs= []#意味の文章(日本語)
     
-    #Selenium起動
+    #Herokuにあげるときは必須、テスト時はいらない
     Selenium::WebDriver::Chrome.path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
     
     options = Selenium::WebDriver::Chrome::Options.new(
+        #Herokuにあげるときはこの2行必須
         prefs: { 'profile.default_content_setting_values.notifications': 2 },
         binary: ENV.fetch('GOOGLE_CHROME_SHIM', nil)
     )
     
     
     options.add_argument('headless')
-    # options.add_argument('--no-sandbox')
-#options.add_argument('--disable-gpu')これ入れるとバグる
+    # options.add_argument('--no-sandbox')これはわからん
+    #options.add_argument('--disable-gpu')これ入れるとバグる
+    
+    #Selenium起動
     driver = Selenium::WebDriver.for :chrome, options: options
     
 
@@ -198,16 +201,18 @@ get '/search' do
         puts "ok2"
         #検索テキストボックスに"Selenium"を入力し検索を実行
         element.send_keys(@word, :enter)
+        puts "ok3"
     end
     
     ###enHack辞書####
     speeches = driver.find_elements(:css,'div.wordnet-item-headr')#単語が持つ品詞の数、名詞と動詞なら2
+    puts "ok4"
     #品詞をテキストにして配列に
     speeches.each do |speech|
         @enHackSpeeches.push(speech.text)
     end
     
-    # puts @enHackSpeeches
+    puts @enHackSpeeches
     
     #各意味の前につく番号
     numbers = driver.find_elements(:css,'div.wordnet-item span.wordnet-item-def-number')
@@ -216,7 +221,7 @@ get '/search' do
         @enHackNumbers.push(number.text)
     end
     
-    # puts @enHackNumbers
+    puts @enHackNumbers
     
     #enHackから語彙の意味だけ取ってくる
     enHacks = driver.find_elements(:css,'div.wordnet-item-def span.sentence-placeholder')
@@ -225,7 +230,7 @@ get '/search' do
         @enHackMeanings.push(enHack.text)
     end
     
-    # puts @enHackMeanings
+    puts @enHackMeanings
     
     #enHackから語彙の意味だけ取ってくる
     enhackJPs = driver.find_elements(:css,'div.wordnet-item-def div.card-content-jp')
