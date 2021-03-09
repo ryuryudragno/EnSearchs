@@ -141,8 +141,8 @@ get '/search' do
     puts 1
     #Selenium起動
     driver = Selenium::WebDriver.for :chrome, options: options
-    #要素がロードされるまでの待ち時間を10秒に設定
-    driver.manage.timeouts.implicit_wait = 30
+    #要素がロードされるまでの待ち時間を5秒に設定
+    driver.manage.timeouts.implicit_wait = 5
     puts 2
 
     #goo辞書にアクセスする
