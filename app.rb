@@ -147,9 +147,8 @@ get '/search' do
     driver.get("https://dictionary.goo.ne.jp/word/en/#{@word}")
     # :timeoutオプションは秒数を指定している。この場合は100秒
     wait = Selenium::WebDriver::Wait.new(:timeout => 10) 
-    puts 3
-    # driver.implicitly_wait(10)  # 見つからないときは、10秒まで待つ
     sleep 1#これがないと本番はバグる
+    # driver.implicitly_wait(10)  # 見つからないときは、10秒まで待つ
     
     #品詞を取ってくる
     gooHinshi_s = driver.find_elements(:css,"div.content-box > .header-hinshi")
