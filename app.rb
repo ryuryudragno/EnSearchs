@@ -146,7 +146,7 @@ get '/search' do
     puts 2
 
     #goo辞書にアクセスする
-    driver.manage.timeouts.page_load = 5
+    driver.manage.timeouts.page_load = 30
     driver.get("https://dictionary.goo.ne.jp/word/en/#{@word}")
     # :timeoutオプションは秒数を指定している。この場合は100秒
     wait = Selenium::WebDriver::Wait.new(:timeout => 30) 
