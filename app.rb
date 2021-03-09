@@ -146,9 +146,10 @@ get '/search' do
     #goo辞書にアクセスする
     driver.get("https://dictionary.goo.ne.jp/word/en/#{@word}")
     # :timeoutオプションは秒数を指定している。この場合は100秒
-    wait = Selenium::WebDriver::Wait.new(:timeout => 10) 
+    wait = Selenium::WebDriver::Wait.new(:timeout => 30) 
     sleep 1#これがないと本番はバグる
     # driver.implicitly_wait(10)  # 見つからないときは、10秒まで待つ
+    puts 3
     
     #品詞を取ってくる
     gooHinshi_s = driver.find_elements(:css,"div.content-box > .header-hinshi")
@@ -184,11 +185,7 @@ get '/search' do
     # #enHack辞書にアクセスする
     driver.get("https://enhack.app/dic/")
     puts "enHackOk"
-    # wait.until {ok}#trueになるまで待つ
-    # untilメソッドは文字通り「～するまで」を意味する
-    # wait.until {driver.find_element(:class,'searchbar-input')}
-    # wait.until {driver.find_elements(:css,'div.wordnet-item-headr')}
-    # wait.until {driver.find_elements(:css,'div.wordnet-item span.wordnet-item-def-number')}
+    
     searchBox = driver.find_elements(:class,'searchbar-input')
     wait.until {searchBox}#trueになるまで待つ
     
