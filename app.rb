@@ -126,11 +126,11 @@ get '/search' do
     @enHackJPs= []#意味の文章(日本語)
     
     #Selenium起動
-    # Selenium::WebDriver::Chrome.path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
+    Selenium::WebDriver::Chrome.path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
     
     options = Selenium::WebDriver::Chrome::Options.new(
-        # prefs: { 'profile.default_content_setting_values.notifications': 2 },
-        # binary: ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+        prefs: { 'profile.default_content_setting_values.notifications': 2 },
+        binary: ENV.fetch('GOOGLE_CHROME_SHIM', nil)
     )
     
     
