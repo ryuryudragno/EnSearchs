@@ -138,30 +138,29 @@ get '/search' do
     options.add_argument('headless')
     # options.add_argument('--no-sandbox')これはわからん
     #options.add_argument('--disable-gpu')これ入れるとバグる
-    
+    puts 1
     #Selenium起動
     driver = Selenium::WebDriver.for :chrome, options: options
-    
+    puts 2
 
-    # :timeoutオプションは秒数を指定している。この場合は100秒
-    wait = Selenium::WebDriver::Wait.new(:timeout => 100) 
-     
-    
     #goo辞書にアクセスする
     driver.get("https://dictionary.goo.ne.jp/word/en/#{@word}")
+    # :timeoutオプションは秒数を指定している。この場合は100秒
+    wait = Selenium::WebDriver::Wait.new(:timeout => 10) 
+    puts 3
     # driver.implicitly_wait(10)  # 見つからないときは、10秒まで待つ
     sleep 1#これがないと本番はバグる
-    puts "前"
+    
     #品詞を取ってくる
     gooHinshi_s = driver.find_elements(:css,"div.content-box > .header-hinshi")
-    puts "中"
+    
     # untilメソッドは文字通り「～するまで」を意味する
-    wait.until {gooHinshi_s}#trueになるまで待つ
-    puts "後"
-    # wait.until {gooHinshi_s.display}にするとバグる
+    wait.until {gooHinshi_s}#trueになるまで待つ, # wait.until {gooHinshi_s.display}にするとバグる
+    
     
     #意味を複数とってくる
     goos = driver.find_elements(:css,"div.contents-wrap-b ol.list-meanings > .in-ttl-b")
+    wait.until {goos}#trueになるまで待つ
     
     #品詞をテキストにして配列に
     gooHinshi_s.each do |gooHinshi|
@@ -185,8 +184,8 @@ get '/search' do
     
     # #enHack辞書にアクセスする
     driver.get("https://enhack.app/dic/")
-    sleep 1
-    
+    puts "enHackOk"
+    # wait.until {ok}#trueになるまで待つ
     # untilメソッドは文字通り「～するまで」を意味する
     # wait.until {driver.find_element(:class,'searchbar-input')}
     # wait.until {driver.find_elements(:css,'div.wordnet-item-headr')}
@@ -203,6 +202,7 @@ get '/search' do
         puts "ok2"
         #検索テキストボックスに"Selenium"を入力し検索を実行
         element.send_keys(@word, :enter)
+        sleep 1
         puts "ok3"
     end
     
