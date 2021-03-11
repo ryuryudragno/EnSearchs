@@ -111,6 +111,11 @@ get '/search' do
     if @word.empty?
        redirect '/' 
     end
+
+    #検索語に空欄があったらもとに戻す
+    if @word.include?(" ")
+        redirect '/' 
+    end
     
     #配列初期化
     @gooSpeeches= []
@@ -130,7 +135,7 @@ get '/search' do
     #goo辞書にアクセスする
     doc = Nokogiri::HTML(open(url),nil,"utf-8")
     
-#     #品詞を取ってくる
+    #品詞を取ってくる
     gooHinshi_s_before = doc.css("div.content-box > .header-hinshi")
 
     #意味がなかったら外す←やっぱやめた
@@ -167,12 +172,12 @@ get '/search' do
 
 #    #######enHack############## 
     #Herokuにあげるときは必須、テスト時はいらない
-    Selenium::WebDriver::Chrome.path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
+    # Selenium::WebDriver::Chrome.path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
     
     options = Selenium::WebDriver::Chrome::Options.new(
         #Herokuにあげるときはこの2行必須
-        prefs: { 'profile.default_content_setting_values.notifications': 2 },
-        binary: ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+        # prefs: { 'profile.default_content_setting_values.notifications': 2 },
+        # binary: ENV.fetch('GOOGLE_CHROME_SHIM', nil)
     )
     
     options.add_argument('headless')
