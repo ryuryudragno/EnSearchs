@@ -125,6 +125,72 @@ get '/search' do
     @enHackMeanings= []#意味の文章
     @enHackJPs= []#意味の文章(日本語)
     
+    # #Herokuにあげるときは必須、テスト時はいらない
+    # # Selenium::WebDriver::Chrome.path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
+    
+    # options = Selenium::WebDriver::Chrome::Options.new(
+    #     #Herokuにあげるときはこの2行必須
+    #     # prefs: { 'profile.default_content_setting_values.notifications': 2 },
+    #     # binary: ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    # )
+    
+    
+    # options.add_argument('headless')
+    # # options.add_argument('--no-sandbox')これはわからん
+    # #options.add_argument('--disable-gpu')これ入れるとバグる
+    # puts 1
+    # #Selenium起動
+    # driver = Selenium::WebDriver.for :chrome, options: options
+    # #要素がロードされるまでの待ち時間を5秒に設定
+    # driver.manage.timeouts.implicit_wait = 5
+    # puts 2
+
+    url = "https://dictionary.goo.ne.jp/word/en/#{@word}"
+
+    #goo辞書にアクセスする
+    # driver.manage.timeouts.page_load = 30
+    # driver.get("https://dictionary.goo.ne.jp/word/en/#{@word}")
+    # # :timeoutオプションは秒数を指定している。この場合は40秒
+    # wait = Selenium::WebDriver::Wait.new(:timeout => 40) 
+    # sleep 1#これがないと本番はバグる
+    # driver.implicitly_wait(10)  # 見つからないときは、10秒まで待つ
+    puts 3
+
+    doc = Nokogiri::HTML(open(url),nil,"utf-8")
+    
+#     #品詞を取ってくる
+#     gooHinshi_s = driver.find_elements(:css,"div.content-box > .header-hinshi")
+    gooHinshi_s = doc.css("div.content-box > .header-hinshi")
+#     # untilメソッドは文字通り「～するまで」を意味する
+#     wait.until {gooHinshi_s}#trueになるまで待つ, # wait.until {gooHinshi_s.display}にするとバグる
+    
+    
+#     #意味を複数とってくる
+#     goos = driver.find_elements(:css,"div.contents-wrap-b ol.list-meanings > .in-ttl-b")
+#     wait.until {goos}#trueになるまで待つ
+    goos = doc.css("div.contents-wrap-b ol.list-meanings > .in-ttl-b")
+    #品詞をテキストにして配列に
+    # gooHinshi_s.each do |gooHinshi|
+    #     @gooSpeeches.push(gooHinshi.find_element(:tag_name,'span').text)
+    # end
+    gooHinshi_s.each do |gooHinshi|
+        @gooSpeeches.push(gooHinshi.css('span')[0].text)
+    end
+    
+    
+    #意味をテキストにして配列に
+    goos.each do |meaning|
+        @gooMeanings1.push(meaning.text)
+    end
+    
+    #それをインデックスと意味に分割 
+    @gooMeanings1.each do |meaning|
+        strAry = meaning.split(" ", 2)
+        @gooNumbers.push(strAry[0])
+        @gooMeanings.push(strAry[1])
+    end
+   
+#    #######enHack############## 
     #Herokuにあげるときは必須、テスト時はいらない
     Selenium::WebDriver::Chrome.path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
     
@@ -143,54 +209,15 @@ get '/search' do
     driver = Selenium::WebDriver.for :chrome, options: options
     #要素がロードされるまでの待ち時間を5秒に設定
     driver.manage.timeouts.implicit_wait = 5
-    puts 2
+    puts 2    
 
-    #goo辞書にアクセスする
-    driver.manage.timeouts.page_load = 30
-    driver.get("https://dictionary.goo.ne.jp/word/en/#{@word}")
-    # :timeoutオプションは秒数を指定している。この場合は40秒
-    wait = Selenium::WebDriver::Wait.new(:timeout => 40) 
-    sleep 1#これがないと本番はバグる
-    # driver.implicitly_wait(10)  # 見つからないときは、10秒まで待つ
-    puts 3
-    
-    #品詞を取ってくる
-    gooHinshi_s = driver.find_elements(:css,"div.content-box > .header-hinshi")
-    
-    # untilメソッドは文字通り「～するまで」を意味する
-    wait.until {gooHinshi_s}#trueになるまで待つ, # wait.until {gooHinshi_s.display}にするとバグる
-    
-    
-    #意味を複数とってくる
-    goos = driver.find_elements(:css,"div.contents-wrap-b ol.list-meanings > .in-ttl-b")
-    wait.until {goos}#trueになるまで待つ
-    
-    #品詞をテキストにして配列に
-    gooHinshi_s.each do |gooHinshi|
-        @gooSpeeches.push(gooHinshi.find_element(:tag_name,'span').text)
-    end
-    
-    
-    #意味をテキストにして配列に
-    goos.each do |meaning|
-        @gooMeanings1.push(meaning.text)
-    end
-    
-    #それをインデックスと意味に分割 
-    @gooMeanings1.each do |meaning|
-        strAry = meaning.split(" ", 2)
-        @gooNumbers.push(strAry[0])
-        @gooMeanings.push(strAry[1])
-    end
-   
-   #######enHack############## 
-    
     # #enHack辞書にアクセスする
     driver.manage.timeouts.page_load = 5
     driver.get("https://enhack.app/dic/")
     puts "enHackOk"
     
     searchBox = driver.find_elements(:class,'searchbar-input')
+    wait = Selenium::WebDriver::Wait.new(:timeout => 40) 
     wait.until {searchBox}#trueになるまで待つ
     
     if searchBox.size >= 1 then
