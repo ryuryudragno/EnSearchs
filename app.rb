@@ -167,12 +167,12 @@ get '/search' do
 
 #    #######enHack############## 
     #Herokuにあげるときは必須、テスト時はいらない
-    # Selenium::WebDriver::Chrome.path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
+    Selenium::WebDriver::Chrome.path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
     
     options = Selenium::WebDriver::Chrome::Options.new(
         #Herokuにあげるときはこの2行必須
-        # prefs: { 'profile.default_content_setting_values.notifications': 2 },
-        # binary: ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+        prefs: { 'profile.default_content_setting_values.notifications': 2 },
+        binary: ENV.fetch('GOOGLE_CHROME_SHIM', nil)
     )
     
     options.add_argument('headless')
