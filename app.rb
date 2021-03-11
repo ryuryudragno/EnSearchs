@@ -133,13 +133,13 @@ get '/search' do
 #     #品詞を取ってくる
     gooHinshi_s_before = doc.css("div.content-box > .header-hinshi")
 
-    #意味がなかったら外す
+    #意味がなかったら外す←やっぱやめた
     gooHinshi_s = [];
     gooHinshi_s_before.each do |gooHin|
-        extraSentence = gooHin.text.split("]",2)
-        if extraSentence[1] == "" then
+        # extraSentence = gooHin.text.split("]",2)
+        # if extraSentence[1] == "" then
             gooHinshi_s.push(gooHin)
-        end
+        # end
     end
     
     #品詞をテキストにして配列に
@@ -164,16 +164,16 @@ get '/search' do
         @gooMeanings.push(strAry[1])
     end
    
+
 #    #######enHack############## 
     #Herokuにあげるときは必須、テスト時はいらない
-    Selenium::WebDriver::Chrome.path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
+    # Selenium::WebDriver::Chrome.path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
     
     options = Selenium::WebDriver::Chrome::Options.new(
         #Herokuにあげるときはこの2行必須
-        prefs: { 'profile.default_content_setting_values.notifications': 2 },
-        binary: ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+        # prefs: { 'profile.default_content_setting_values.notifications': 2 },
+        # binary: ENV.fetch('GOOGLE_CHROME_SHIM', nil)
     )
-    
     
     options.add_argument('headless')
     # options.add_argument('--no-sandbox')これはわからん
@@ -182,12 +182,12 @@ get '/search' do
     #Selenium起動
     driver = Selenium::WebDriver.for :chrome, options: options
     #要素がロードされるまでの待ち時間を5秒に設定
-    driver.manage.timeouts.implicit_wait = 10
+    driver.manage.timeouts.implicit_wait = 20
     puts 2    
 
     # #enHack辞書にアクセスする
-    driver.manage.timeouts.page_load = 10
     driver.get("https://enhack.app/dic/")
+    driver.manage.timeouts.page_load = 20
     puts "enHackOk"
     
     searchBox = driver.find_elements(:class,'searchbar-input')
