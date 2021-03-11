@@ -182,16 +182,16 @@ get '/search' do
     #Selenium起動
     driver = Selenium::WebDriver.for :chrome, options: options
     #要素がロードされるまでの待ち時間を5秒に設定
-    driver.manage.timeouts.implicit_wait = 5
+    driver.manage.timeouts.implicit_wait = 10
     puts 2    
 
     # #enHack辞書にアクセスする
-    driver.manage.timeouts.page_load = 5
+    driver.manage.timeouts.page_load = 10
     driver.get("https://enhack.app/dic/")
     puts "enHackOk"
     
     searchBox = driver.find_elements(:class,'searchbar-input')
-    wait = Selenium::WebDriver::Wait.new(:timeout => 40) 
+    wait = Selenium::WebDriver::Wait.new(:timeout => 10) 
     wait.until {searchBox}#trueになるまで待つ,# wait.until {gooHinshi_s.display}にするとバグる
     
     if searchBox.size >= 1 then
