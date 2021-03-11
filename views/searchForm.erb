@@ -1,11 +1,54 @@
 <div class="first-view center-vertical">
   <form action = "/search" method = "get" class = "my-3" name = "word">
-  	  <div class = "input-group cp_iptxt">
+  	  <div class = "input-group">
   	  	<div class="cp_iptxt">
-  	      <input class = "form-control input-lg ef" type = "text" name = "searchWord" placeholder = "英単語を入力">
+  	      <input class = "form-control input-lg ef searchAlpha" type = "text" name = "searchWord" placeholder = "英単語を入力">
           <span class="focus_line"><i></i></span>	
   	  	</div>
-  	  	  <button class = "btn btn-primary" type = "submit" onClick="return check();"><i class="fas fa-search"></i></button>
+			<button class = "btn btn-primary" type = "submit" onClick="return check();"><i class="fas fa-search"></i></button>
   	  </div>
+		
   </form>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // --------------------------------------------
+    // ▼英字と特定の記号の入力チェック用スクリプト
+    // --------------------------------------------
+    let targets = document.getElementsByClassName('searchAlpha')
+    console.log(targets)
+    for (let i=0 ; i<targets.length ; i++) {
+      // ▼文字が入力されたタイミングでチェックする：
+      targets[i].oninput = function () {
+        let alertelement = this.parentNode.getElementsByClassName('alertarea');
+        if( ( this.value != '') && (this.value.match(" ")) ) {
+          // ▼何か入力があって、指定以外の文字があれば
+          console.log("X")
+          if( alertelement[0] ) { alertelement[0].innerHTML = '空欄は入力できません。'; }
+          
+          //エラーで、エラーメッセージがなかったら
+            if(!$(this).nextAll('div.alert-warning').length)
+            {
+              //メッセージを後ろに追加
+              $(this).after(
+                '<div class = "alert alert-warning" style = "font-size: 13px; margin-bottom: -1px;">空欄は入力できません</div>'
+              );
+              nameCheck = false;
+            }
+        }
+        else {
+          // ▼何も入力がないか、または指定文字しかないなら
+          if( alertelement[0] ) { alertelement[0].innerHTML = ""; }
+          //エラーじゃないのにメッセージがあったら
+          if($(this).nextAll('div.alert-warning').length)
+          {
+            console.log("ok2")
+            //消す
+            $(this).nextAll('div.alert-warning').remove();
+          }
+        }
+      }
+    }
+});
+</script>
