@@ -182,16 +182,16 @@ get '/search' do
     #Selenium起動
     driver = Selenium::WebDriver.for :chrome, options: options
     #要素がロードされるまでの待ち時間を5秒に設定
-    driver.manage.timeouts.implicit_wait = 20
+    driver.manage.timeouts.implicit_wait = 5
     puts 2    
 
     # #enHack辞書にアクセスする
     driver.get("https://enhack.app/dic/")
-    driver.manage.timeouts.page_load = 20
+    driver.manage.timeouts.page_load = 5
     puts "enHackOk"
     
     searchBox = driver.find_elements(:class,'searchbar-input')
-    wait = Selenium::WebDriver::Wait.new(:timeout => 10) 
+    wait = Selenium::WebDriver::Wait.new(:timeout => 4) 
     wait.until {searchBox}#trueになるまで待つ,# wait.until {gooHinshi_s.display}にするとバグる
     
     if searchBox.size >= 1 then
@@ -240,7 +240,7 @@ get '/search' do
     
     puts @enHackMeanings
     
-    #enHackから語彙の意味だけ取ってくる
+    #enHackから語彙の意味だけ取ってくる(日本語)
     enhackJPs = driver.find_elements(:css,'div.wordnet-item-def div.card-content-jp')
     wait.until {enhackJPs}#trueになるまで待つ
     puts "ok7"
