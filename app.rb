@@ -238,26 +238,29 @@ get '/search' do
     
     puts @enHackSpeeches
     
-    #各意味の前につく番号
-    numbers = driver.find_elements(:css,'div.wordnet-item span.wordnet-item-def-number')
-    wait.until {numbers}#trueになるまで待つ
-    puts "ok6"
-    #テキストにして配列に
-    numbers.each do |number|
-        @enHackNumbers.push(number.text)
+    if Time.now - start_time < 21 then
+        #各意味の前につく番号
+        numbers = driver.find_elements(:css,'div.wordnet-item span.wordnet-item-def-number')
+        wait.until {numbers}#trueになるまで待つ
+        puts "ok6"
+        #テキストにして配列に
+        numbers.each do |number|
+            @enHackNumbers.push(number.text)
+        end
     end
     
     puts @enHackNumbers
     
-    puts @enHackMeanings
     
-    #enHackから語彙の意味だけ取ってくる(日本語)
-    enhackJPs = driver.find_elements(:css,'div.wordnet-item-def div.card-content-jp')
-    wait.until {enhackJPs}#trueになるまで待つ
-    puts "ok7"
-    #文字にして配列にする
-    enhackJPs.each do |enHack|
-        @enHackJPs.push(enHack.text)
+    if Time.now - start_time < 25 then
+        #enHackから語彙の意味だけ取ってくる(日本語)
+        enhackJPs = driver.find_elements(:css,'div.wordnet-item-def div.card-content-jp')
+        wait.until {enhackJPs}#trueになるまで待つ
+        puts "ok7"
+        #文字にして配列にする
+        enhackJPs.each do |enHack|
+            @enHackJPs.push(enHack.text)
+        end
     end
     
     driver.quit # ブラウザ終了
