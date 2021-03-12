@@ -236,7 +236,7 @@ get '/search' do
         @enHackSpeeches.push(speech.text)
     end
     
-    puts @enHackSpeeches
+    puts "#{Time.now - start_time}s"
     
     if Time.now - start_time < 21 then
         #各意味の前につく番号

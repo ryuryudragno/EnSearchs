@@ -2,7 +2,7 @@ function check(){//入力チェック欄
     let str = document.word.searchWord.value//検索語句を取得
     console.log(str)
     
-    if(!str.value.match(/\S/g)){
+    if(!str.match(/\S/g)){
         alert("空欄以外が含まれています");
     }
 
