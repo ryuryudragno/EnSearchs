@@ -105,8 +105,12 @@ get '/home' do #新規登録の情報入力ページに飛ばす
 end
 
 get '/search' do
+    start_time = Time.now
+    puts start_time
+
     @word = params[:searchWord]#検索語
-    
+    count = 0
+
     #検索語が空だったら元に戻す
     if @word.empty?
        redirect '/' 
@@ -132,6 +136,7 @@ get '/search' do
     
     url = "https://dictionary.goo.ne.jp/word/en/#{@word}"
 
+    
     #goo辞書にアクセスする
     doc = Nokogiri::HTML(open(url),nil,"utf-8")
     
@@ -213,9 +218,19 @@ get '/search' do
     end
     
     ###enHack辞書####
+    #enHackから語彙の意味だけ取ってくる
+    enHacks = driver.find_elements(:css,'div.wordnet-item-def span.sentence-placeholder')
+    wait.until {enHacks}#trueになるまで待つ
+    puts "ok4"
+    #文字にして配列にする
+    enHacks.each do |enHack|
+        @enHackMeanings.push(enHack.text)
+    end
+
+
     speeches = driver.find_elements(:css,'div.wordnet-item-headr')#単語が持つ品詞の数、名詞と動詞なら2
     wait.until {speeches}#trueになるまで待つ
-    puts "ok4"
+    puts "ok5"
     #品詞をテキストにして配列に
     speeches.each do |speech|
         @enHackSpeeches.push(speech.text)
@@ -226,22 +241,13 @@ get '/search' do
     #各意味の前につく番号
     numbers = driver.find_elements(:css,'div.wordnet-item span.wordnet-item-def-number')
     wait.until {numbers}#trueになるまで待つ
-    puts "ok5"
+    puts "ok6"
     #テキストにして配列に
     numbers.each do |number|
         @enHackNumbers.push(number.text)
     end
     
     puts @enHackNumbers
-    
-    #enHackから語彙の意味だけ取ってくる
-    enHacks = driver.find_elements(:css,'div.wordnet-item-def span.sentence-placeholder')
-    wait.until {enHacks}#trueになるまで待つ
-    puts "ok6"
-    #文字にして配列にする
-    enHacks.each do |enHack|
-        @enHackMeanings.push(enHack.text)
-    end
     
     puts @enHackMeanings
     
@@ -255,7 +261,7 @@ get '/search' do
     end
     
     driver.quit # ブラウザ終了
-    
+    p "処理概要 #{Time.now - start_time}s"
     erb :index
     
 end
