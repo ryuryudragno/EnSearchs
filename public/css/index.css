@@ -4,6 +4,10 @@ body {
   font-family: "Noto Sans JP", sans-serif;
 }
 
+img{
+  object-fit: cover;
+}
+
 nav {
   background-color: rgb(70, 69, 69);
   display: inline;
